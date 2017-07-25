@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "Bicloo Quick Look",
+    "description": "Show quickly how many bike are available at your favorite station",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "activeTab",
+        "https://ajax.googleapis.com/"
+    ]
+}

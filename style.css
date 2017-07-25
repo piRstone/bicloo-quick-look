@@ -1,0 +1,29 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    min-width: 400px;
+    background-color: #f3f3f3;
+}
+
+.station {
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    margin: 10px 0;
+    border-radius: 2px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+    margin-bottom: 10px;
+}
