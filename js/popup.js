@@ -9,29 +9,41 @@ function displayInfos(data) {
 
     // Bikes available
     var available = data.available_bikes;
-    var sentence;
+    var status = document.createElement('span');
+    var sentence = document.createElement('span');
     if (available == 0) {
-        sentence = "Aucun vélo disponible";
+        sentence.className = "unavailable";
+        sentence.innerHTML = "Aucun vélo disponible";
+        status.className = "status false";
     } else if (available == 1) {
-        sentence = available + " vélo disponible";
+        sentence.innerHTML = available + " vélo disponible";
+        status.className = "status true";
     } else {
-        sentence = available + " vélos disponibles";
+        sentence.innerHTML = available + " vélos disponibles";
+        status.className = "status true";
     }
     var bikes = document.createElement('p');
-    bikes.innerHTML = sentence;
+    bikes.appendChild(status);
+    bikes.appendChild(sentence);
 
     // Stands available
     var standsAvailable = data.available_bike_stands;
-    var sentence2;
+    var status2 = document.createElement('span');
+    var sentence2 = document.createElement('span');
     if (standsAvailable == 0) {
-        sentence2 = "Aucune place disponible";
+        sentence2.className = "unavailable";
+        sentence2.innerHTML = "Aucune place disponible";
+        status2.className = "status false";
     } else if (standsAvailable == 1) {
-        sentence2 = standsAvailable + " place disponible";
+        sentence2.innerHTML = standsAvailable + " place disponible";
+        status2.className = "status true";
     } else {
-        sentence2 = standsAvailable + " places disponibles";
+        sentence2.innerHTML = standsAvailable + " places disponibles";
+        status2.className = "status true";
     }
     var stands = document.createElement('p');
-    stands.innerHTML = sentence2;
+    stands.appendChild(status2);
+    stands.appendChild(sentence2);
 
     // Delete button
     var deleteBut = document.createElement('a');

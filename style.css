@@ -5,6 +5,23 @@ body {
     background-color: #f3f3f3;
 }
 
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
 .station {
     position: relative;
     box-shadow: 0 0 10px rgba(0,0,0,.3);
@@ -12,6 +29,30 @@ body {
     border-radius: 5px;
     background-color: #fff;
     padding: 10px;
+}
+
+.station p span {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.station p span.unavailable {
+    color: #d60000;
+}
+
+.station .status {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.station .status.true {
+    background-color: green;
+}
+
+.station .status.false {
+    background-color: red;
 }
 
 .station:hover .delete {
@@ -32,23 +73,6 @@ body {
     opacity: 1;
 }
 
-h1 {
-    margin-bottom: 15px;
-}
-
-h2 {
-    margin: 0;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
-
-p {
-    font-size: 16px;
-    font-weight: 300;
-    margin: 0;
-    margin-bottom: 5px;
-}
-
-p span {
-    font-weight: normal;
+span.number {
+    font-weight: bold;
 }
