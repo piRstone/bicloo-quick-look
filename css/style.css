@@ -1,0 +1,23 @@
+body {
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    min-width: 400px;
+    color: #1f1f1;
+    background-color: #f3f3f3;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+    margin-bottom: 5px;
+}
