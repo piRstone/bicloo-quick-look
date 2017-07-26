@@ -5,7 +5,7 @@ var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
 function displayInfos(data) {
     // Title
     var title = document.createElement('h2');
-    title.innerHTML = data.name;
+    title.innerHTML = data.name.substring(6);
 
     // Bikes available
     var available = data.available_bikes;
