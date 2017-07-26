@@ -5,11 +5,30 @@ body {
 }
 
 .station {
+    position: relative;
     box-shadow: 0 0 10px rgba(0,0,0,.5);
     margin: 10px 0;
     border-radius: 2px;
     background-color: #fff;
     padding: 10px;
+}
+
+.station:hover .delete {
+    opacity: .5;
+}
+
+.station .delete {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.station .delete:hover {
+    opacity: 1;
 }
 
 h1 {
