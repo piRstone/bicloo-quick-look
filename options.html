@@ -13,11 +13,13 @@
         <h1>Bicloo Quick Look</h1>
         <h2>Options</h2>
         <div id="icon-number">
-            <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
-            <input type="checkbox" id="show-icon-label" />
+            <div class="check-option">
+                <input type="checkbox" id="show-icon-label" />
+                <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
+            </div>
             <div id="show-interval">
                 <p>Délai de rafraichissement (min)</p>
-                <input type="number" id="interval" />
+                <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok hide">Enregistré</span>
             </div>
         </div>
     </body>

@@ -5,3 +5,59 @@ body {
 h1 {
     font-size: 40px;
 }
+
+h2 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 20px;
+}
+
+label {
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+}
+
+.check-option label, .check-option input {
+    vertical-align: middle;
+}
+
+#show-interval {
+    margin-left: 22px;
+    margin-top: 5px;
+}
+
+
+#interval {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #ddd;
+    font-size: 20px;
+    width: 60px;
+    text-align: center;
+}
+
+.validate-interval {
+    background-color: #19ff85;
+    border: none;
+    color: #fff;
+    height: 30px;
+    border-radius: 14px;
+    width: 50px;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.validate-interval:hover {
+    background-color: #10e574;
+}
+
+.interval-change-ok {
+    color: #19ff85;
+    margin-left: 5px;
+}

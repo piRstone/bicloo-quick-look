@@ -1,7 +1,7 @@
 body {
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     min-width: 400px;
-    color: #1f1f1;
+    color: #1f1f1f;
     background-color: #f3f3f3;
 }
 
@@ -15,7 +15,7 @@ h2 {
     letter-spacing: 1px;
 }
 
-p {
+p, label {
     font-size: 16px;
     font-weight: 300;
     margin: 0;
