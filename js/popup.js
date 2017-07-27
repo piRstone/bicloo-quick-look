@@ -47,9 +47,10 @@ function displayInfos(data) {
 
     // Delete button
     var deleteBut = document.createElement('a');
-    deleteBut.className = "delete"
+    deleteBut.className = "delete";
     deleteBut.id = "delete-" + data.number;
     deleteBut.innerHTML = "&times;";
+    deleteBut.setAttribute("title", "Retirer la station");
 
     var element = document.createElement('div');
     element.className = "station";
@@ -122,6 +123,10 @@ function deleteStation(event) {
     var i = savedStation.indexOf(id);
     savedStation.splice(i, 1);
     localStorage['bql-fav-stations'] = savedStation;
+}
+
+function openOptions() {
+    chrome.extension.getBackgroundPage().open('options.html');
 }
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -24,10 +24,18 @@ function getStationInfos(stationId) {
 }
 
 // Initial count. 17 is for Sainte-Elisabeth station
-getStationInfos(17);
+// Show icon bike count if option is set
+if (localStorage['bql-show-number'] != undefined && JSON.parse(localStorage['bql-show-number']) == true) {
+    getStationInfos(17);
+}
 
-// Checks availability every 15 minutes
-var intervalInMinutes = 15;
+// Checks availability at setted interval
+var intervalInMinutes;
+if (localStorage['bql-refresh-interval'] != undefined) {
+    intervalInMinutes = JSON.parse(localStorage['bql-refresh-interval']);
+} else {
+    intervalInMinutes = 15;
+}
 var interval = 1000 * 60 * intervalInMinutes;
 setInterval(function() {
     getStationInfos(17);

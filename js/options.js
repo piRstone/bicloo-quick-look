@@ -1,12 +1,31 @@
 var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
 var DEFAULT_INTERVAL = 15;
 
+function getStationAvailableBikesCount(stationId, success) {
+    var url = "https://api.jcdecaux.com/vls/v1/stations/"+stationId+"?contract=nantes&apiKey="+apiKey;
+    $.get(url, function(data) {
+        if (data.available_bikes) {
+            success(data.available_bikes);
+        } else {
+            success('*');
+        }
+    });
+}
+
 // Display bikes count for favorite station
 function displayIconNumber(e) {
     localStorage['bql-show-number'] = e.target.checked;
     if (e.target.checked == true) {
-        chrome.browserAction.setBadgeText({text: "*"});
-        $('#show-interval').removeClass("hide")
+        $('#show-interval').removeClass("hide");
+        // Set bikes count in icon
+        getStationAvailableBikesCount(17, function(count) {
+            chrome.browserAction.setBadgeText({text: count.toString()});
+            if (count == 0 || count == '*') {
+                chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+            } else {
+                chrome.browserAction.setBadgeBackgroundColor({color: "green"});
+            }
+        });
     } else {
         chrome.browserAction.setBadgeText({text: ""});
         $('#show-interval').addClass("hide");
