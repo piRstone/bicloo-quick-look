@@ -5,7 +5,13 @@ var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
 function displayInfos(data) {
     // Title
     var title = document.createElement('h2');
-    title.innerHTML = data.name.substring(6);
+    var text = document.createElement('span');
+    text.innerHTML = data.name.substring(6);
+    var stationId = document.createElement('span');
+    stationId.innerHTML = ' - ' + data.number;
+    stationId.className = 'station-id';
+    title.appendChild(text);
+    title.appendChild(stationId);
 
     // Bikes available
     var available = data.available_bikes;
@@ -101,16 +107,26 @@ function getStationsList() {
 }
 
 function addStation(event) {
-    getStationInfos(event.target.value);
 
     // Store added station
     if (localStorage['bql-fav-stations'] != undefined) {
-        var savedStation = localStorage['bql-fav-stations'].split(',');
-        savedStation.push(event.target.value);
-        localStorage['bql-fav-stations'] = savedStation;
+        var savedStations = localStorage['bql-fav-stations'].split(',');
+        // If the added station is not already saved
+        if (savedStations.indexOf(event.target.value) == -1) {
+            // Display station in list
+            getStationInfos(event.target.value);
+
+            // Save station id in localStorage
+            savedStations.push(event.target.value);
+            localStorage['bql-fav-stations'] = savedStations;
+        }
     } else {
+        getStationInfos(event.target.value);
         localStorage['bql-fav-stations'] = event.target.value;
     }
+
+    // Reset select to default value
+    $('#add-station').prop('selectedIndex',0);
 }
 
 function deleteStation(event) {

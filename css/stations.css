@@ -7,6 +7,16 @@
     padding: 10px;
 }
 
+.station h2 span {
+    vertical-align: middle;
+}
+
+.station h2 span.station-id {
+    color: grey;
+    font-size: 14px;
+    font-weight: normal;
+}
+
 .station p span {
     vertical-align: middle;
     display: inline-block;
