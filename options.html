@@ -14,10 +14,11 @@
         <h1>Bicloo Quick Look</h1>
         <h2>Options</h2>
         <div class="fav-station">
+            <h3>Ma station préférée</h3>
             <select id="fav-stations-choice">
-                <option disabled selected="">Ma station préférée</select>
+                <option disabled selected>Ma station préférée</select>
             </select>
-            <button type="button" class="validate-fav-station">Ok</button> <span class="fav-station-change-ok hide">Enregistré</span>
+            <button type="button" class="validate-fav-station">Ok</button> <span class="fav-station-change-ok saved hide">Enregistré</span>
         </div>
         <div id="icon-number">
             <div class="check-option">
@@ -26,8 +27,24 @@
             </div>
             <div id="show-interval">
                 <p>Délai de rafraichissement (min)</p>
-                <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok hide">Enregistré</span>
+                <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok saved hide">Enregistré</span>
             </div>
+        </div>
+        <div class="fav-journee">
+            <h3>Mon trajet préféré</h3>
+            <p>Voyez d'un coup d'œil si un vélo et une place sont disponible pour effectuer votre trajet préféré</p>
+            <div>
+                <input type="checkbox" id="show-fav-station" />
+                <label for="show-fav-station">Afficher le trajet préféré</label>
+            </div>
+            <select id="begin-station">
+                <option disabled selected>Station de départ</select>
+            </select>
+            <select id="end-station">
+                <option disabled selected>Station d'arrivée</select>
+            </select>
+            <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
+            <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
         </div>
     </body>
 </html>
