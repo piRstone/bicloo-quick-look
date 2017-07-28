@@ -150,5 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
     getStationsList();
     loadAddedStations();
 
-    document.getElementById('add-station').addEventListener('change', addStation);
+    $('#settings').click(openOptions);
+    $('#add-station').change(addStation);
 });

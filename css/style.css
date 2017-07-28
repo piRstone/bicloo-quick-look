@@ -1,7 +1,7 @@
 body {
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     min-width: 400px;
-    color: #1f1f1f;
+    color: #2c2c2f;
     background-color: #f3f3f3;
 }
 
@@ -20,4 +20,22 @@ p, label {
     font-weight: 300;
     margin: 0;
     margin-bottom: 5px;
+}
+
+#settings {
+    position: absolute;
+    top: 22px;
+    right: 20px;
+    height: 15px;
+    width: 15px;
+    background-image: url('../settings.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: .5;
+    cursor: pointer;
+}
+
+#settings:hover {
+    opacity: 1;
 }
