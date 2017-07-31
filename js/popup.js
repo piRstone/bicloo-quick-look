@@ -1,6 +1,18 @@
 var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
+var stations = [];
 
-// chrome.browserAction.setBadgeText({text: data.available_bikes.toString()});
+
+function getStations(success) {
+    var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
+    $.get(url, function(data) {
+        stations = data;
+        success();
+        var select = $('#add-station');
+        for(var i=0 ; i < data.length ; i++) {
+            select.append('<option value="'+data[i].number+'">'+data[i].name+'</option>');
+        }
+    });
+}
 
 function displayInfos(data) {
     // Title
@@ -70,21 +82,11 @@ function displayInfos(data) {
 }
 
 function getStationInfos(stationId) {
-    var url = "https://api.jcdecaux.com/vls/v1/stations/"+stationId+"?contract=nantes&apiKey="+apiKey;
-    var x = new XMLHttpRequest();
-    x.open('GET', url);
-    x.responseType = 'json';
-    x.onload = function() {
-        var response = x.response;
-        if (!response || response.error != undefined) {
-            return;
+    for (var i=0 ; i < stations.length ; i++) {
+        if (stations[i].number == stationId) {
+            displayInfos(stations[i]);
         }
-        displayInfos(response);
-    };
-    x.onerror = function() {
-        console.error(x.response);
-    };
-    x.send();
+    }
 }
 
 function loadAddedStations() {
@@ -96,18 +98,7 @@ function loadAddedStations() {
     }
 }
 
-function getStationsList() {
-    var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
-    $.get(url, function(data) {
-        var select = $('#add-station');
-        for(var i=0 ; i < data.length ; i++) {
-            select.append('<option value="'+data[i].number+'">'+data[i].name+'</option>');
-        }
-    });
-}
-
 function addStation(event) {
-
     // Store added station
     if (localStorage['bql-fav-stations'] != undefined) {
         var savedStations = localStorage['bql-fav-stations'].split(',');
@@ -147,9 +138,12 @@ function openOptions() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Load stations
-    getStationsList();
-    loadAddedStations();
+    getStations(function() {
+        loadAddedStations();
 
-    $('#settings').click(openOptions);
-    $('#add-station').change(addStation);
+        $('#settings').click(openOptions);
+        $('#add-station').change(addStation);
+
+        console.log('stations', stations);
+    });
 });
