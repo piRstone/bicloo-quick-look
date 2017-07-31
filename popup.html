@@ -11,10 +11,11 @@
     </head>
     <body>
         <h1>Bicloo Quick Look</h1>
-        <a id="settings"></a>
+        <div class="options">
+            <a id="add-station"><span class="plus">+</span><span id="close-add-stations" class="hide">Fermer</span></a>
+            <a id="settings"></a>
+        </div>
         <div id="stations"></div>
-        <select id="add-station">
-            <option disabled selected="">Ajouter une station</select>
-        </select>
+        <div id="stations-list" class="hide"></div>
     </body>
 </html>

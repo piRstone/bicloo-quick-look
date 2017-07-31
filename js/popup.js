@@ -7,10 +7,6 @@ function getStations(success) {
     $.get(url, function(data) {
         stations = data;
         success();
-        var select = $('#add-station');
-        for(var i=0 ; i < data.length ; i++) {
-            select.append('<option value="'+data[i].number+'">'+data[i].name+'</option>');
-        }
     });
 }
 
@@ -98,22 +94,51 @@ function loadAddedStations() {
     }
 }
 
+function showStationsList() {
+    if ($('#add-station').hasClass('open')) {
+        // Remove all event handlers of stations to add list
+        $('#station-list').off('click', 'p', addStation);
+
+        // Hide list of stations
+        $('#stations').removeClass('hide');
+        $('#stations-list').addClass('hide');
+        $('#add-station').removeClass('open');
+    } else {
+        // Display list of stations
+        $('#stations').addClass('hide');
+        $('#stations-list').removeClass('hide');
+        $('#add-station').addClass('open');
+    }
+
+    // Add stations to list
+    var list = $('#stations-list');
+    for(var i=0 ; i < stations.length ; i++) {
+        list.append('<p id="add-station-'+stations[i].number+'" class="station-to-add">'+stations[i].name.substring(3)+'</p>');
+        $('#add-station-'+stations[i].number).click(addStation);
+    }
+}
+
 function addStation(event) {
+    // Close stations list
+    showStationsList();
+
+    var stationId = event.target.id.substring(12);
+
     // Store added station
     if (localStorage['bql-fav-stations'] != undefined) {
         var savedStations = localStorage['bql-fav-stations'].split(',');
         // If the added station is not already saved
-        if (savedStations.indexOf(event.target.value) == -1) {
+        if (savedStations.indexOf(stationId) == -1) {
             // Display station in list
-            getStationInfos(event.target.value);
+            getStationInfos(stationId);
 
             // Save station id in localStorage
-            savedStations.push(event.target.value);
+            savedStations.push(stationId);
             localStorage['bql-fav-stations'] = savedStations;
         }
     } else {
-        getStationInfos(event.target.value);
-        localStorage['bql-fav-stations'] = event.target.value;
+        getStationInfos(stationId);
+        localStorage['bql-fav-stations'] = stationId;
     }
 
     // Reset select to default value
@@ -142,8 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadAddedStations();
 
         $('#settings').click(openOptions);
-        $('#add-station').change(addStation);
-
-        console.log('stations', stations);
+        $('#add-station').click(showStationsList);
     });
 });
