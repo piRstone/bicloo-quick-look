@@ -70,6 +70,7 @@ span.number {
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     transition: padding-left .3s ease;
+    margin-bottom: 0;
 }
 
 #stations-list .station-to-add:first-child {

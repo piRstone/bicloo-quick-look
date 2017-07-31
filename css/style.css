@@ -50,12 +50,15 @@ p, label {
 #add-station #close-add-stations {
     font-size: 15px;
     color: red;
+    padding: 0 4px;
 }
 #add-station #close-add-stations:hover {
-    opacity: .5;
+    background-color: red;
+    color: #fff;
+    border-radius: 3px;
 }
 
-#add-station plus:hover {
+#add-station .plus:hover {
     color: green;
 }
 
