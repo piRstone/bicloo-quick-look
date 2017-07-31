@@ -88,7 +88,7 @@ function displayInfos(data) {
 function getStationInfos(stationId) {
     for (var i=0 ; i < stations.length ; i++) {
         if (stations[i].number == stationId) {
-            displayInfos(stations[i]);
+            return stations[i];
         }
     }
 }
@@ -97,7 +97,7 @@ function loadAddedStations() {
     if (localStorage['bql-fav-stations'] != undefined) {
         var savedStation = localStorage['bql-fav-stations'].split(',');
         for(var i=0 ; i < savedStation.length ; i++) {
-            getStationInfos(savedStation[i]);
+            displayInfos(getStationInfos(savedStation[i]));
         }
     }
 }
@@ -138,14 +138,14 @@ function addStation(event) {
         // If the added station is not already saved
         if (savedStations.indexOf(stationId) == -1) {
             // Display station in list
-            getStationInfos(stationId);
+            displayInfos(getStationInfos(stationId));
 
             // Save station id in localStorage
             savedStations.push(stationId);
             localStorage['bql-fav-stations'] = savedStations;
         }
     } else {
-        getStationInfos(stationId);
+        displayInfos(getStationInfos(stationId));
         localStorage['bql-fav-stations'] = stationId;
     }
 
@@ -165,6 +165,46 @@ function deleteStation(event) {
     localStorage['bql-fav-stations'] = savedStation;
 }
 
+function showFavJournee() {
+    if (localStorage['bql-display-fav-journee'] != undefined && JSON.parse(localStorage['bql-display-fav-journee']) == true) {
+        var begStationId = localStorage['bql-beg-station'] != undefined ? parseInt(localStorage['bql-beg-station']) : undefined;
+        var endStationId = localStorage['bql-end-station'] != undefined ? parseInt(localStorage['bql-end-station']) : undefined;
+        if (begStationId != undefined && endStationId != undefined) {
+            var beg = getStationInfos(begStationId);
+            var end = getStationInfos(endStationId);
+
+            // Create origin station div
+            var begDiv = $('<li class="journee-station"></li>');
+            begDiv.append('<span class="station-name">'+beg.name.substring(6)+'</span>');
+            begDiv.append('<span class="count bikes">'+beg.available_bikes+'</span>');
+
+            // Create arrival station div
+            var endDiv = $('<li class="journee-station"></li>');
+            endDiv.append('<span class="station-name">'+end.name.substring(6)+'</span>');
+            endDiv.append('<span class="count stands">'+end.available_bike_stands+'</span>');
+
+            // Add data in journee block
+            var favJourneeList = $('#fav-journee ul');
+            favJourneeList.prepend(begDiv);
+            favJourneeList.append(endDiv);
+
+            // Display favorite journee block
+            var favJourneeBlock = $('#fav-journee');
+            favJourneeBlock.removeClass('hide');
+
+            // Adding style to the block
+            if (beg.available_bikes == 0 || end.available_bike_stands == 0) {
+                favJourneeBlock.addClass('bad');
+            } else if ((beg.available_bikes > 0 && beg.available_bikes <= 2) ||
+                (end.available_bike_stands > 0 && end.available_bike_stands <= 2)) {
+                favJourneeBlock.addClass('danger');
+            } else {
+                favJourneeBlock.addClass('good');
+            }
+        }
+    }
+}
+
 function openOptions() {
     chrome.extension.getBackgroundPage().open('options.html');
 }
@@ -173,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load stations
     getStations(function() {
         loadAddedStations();
+        showFavJournee();
 
         $('#settings').click(openOptions);
         $('#add-station').click(showStationsList);
