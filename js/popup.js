@@ -5,6 +5,14 @@ var stations = [];
 function getStations(success) {
     var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
     $.get(url, function(data) {
+        // Sort stations by id
+        data.sort(function(a, b) {
+            if (a.number < b.number)
+                return -1;
+            if (a.number > b.number)
+                return 1;
+            return 0;
+        });
         stations = data;
         success();
     });
