@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Bicloo Quick Look",
-    "description": "Show quickly how many bike are available at your favorite station",
+    "description": "Voyez en un clin d'oeil les vélos et places disponibles à vos stations préférées.",
     "version": "1.0",
 
     "browser_action": {
@@ -19,7 +19,6 @@
     },
     "options_page": "options.html",
     "permissions": [
-        "activeTab",
-        "https://ajax.googleapis.com/"
+        "activeTab"
     ]
 }
