@@ -176,12 +176,12 @@ function showFavJournee() {
             // Create origin station div
             var begDiv = $('<li class="journee-station"></li>');
             begDiv.append('<span class="station-name">'+beg.name.substring(6)+'</span>');
-            begDiv.append('<span class="count bikes">'+beg.available_bikes+'</span>');
+            begDiv.append('<span class="count bikes"><img src="bike.png" alt="bike"/>'+beg.available_bikes+'</span>');
 
             // Create arrival station div
             var endDiv = $('<li class="journee-station"></li>');
             endDiv.append('<span class="station-name">'+end.name.substring(6)+'</span>');
-            endDiv.append('<span class="count stands">'+end.available_bike_stands+'</span>');
+            endDiv.append('<span class="count stands"><img src="marker.png" alt="station"/>'+end.available_bike_stands+'</span>');
 
             // Add data in journee block
             var favJourneeList = $('#fav-journee ul');
@@ -205,6 +205,18 @@ function showFavJournee() {
     }
 }
 
+function updateCountBadge() {
+    if (localStorage['bql-show-number'] != undefined && JSON.parse(localStorage['bql-show-number']) == true && localStorage['bql-fav-station'] != undefined) {
+        var station = getStationInfos(parseInt(localStorage['bql-fav-station']));
+        if (station.available_bikes == 0) {
+            chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+        } else {
+            chrome.browserAction.setBadgeBackgroundColor({color: "green"});
+        }
+        chrome.browserAction.setBadgeText({text: station.available_bikes.toString()});
+    }
+}
+
 function openOptions() {
     chrome.extension.getBackgroundPage().open('options.html');
 }
@@ -214,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getStations(function() {
         loadAddedStations();
         showFavJournee();
+        updateCountBadge();
 
         $('#settings').click(openOptions);
         $('#add-station').click(showStationsList);

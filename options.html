@@ -13,21 +13,23 @@
     <body>
         <h1>Bicloo Quick Look</h1>
         <h2>Options</h2>
+        <p id="empty-message">Ajoutez des stations pour configurer vos paramètres.</p>
         <div class="fav-station">
             <h3>Ma station préférée</h3>
             <select id="fav-stations-choice">
                 <option disabled selected>Ma station préférée</select>
             </select>
             <button type="button" class="validate-fav-station">Ok</button> <span class="fav-station-change-ok saved hide">Enregistré</span>
-        </div>
-        <div id="icon-number">
-            <div class="check-option">
-                <input type="checkbox" id="show-icon-label" />
-                <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
-            </div>
-            <div id="show-interval">
-                <p>Délai de rafraichissement (min)</p>
-                <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok saved hide">Enregistré</span>
+
+            <div id="icon-number" class="hide">
+                <div class="check-option">
+                    <input type="checkbox" id="show-icon-label" />
+                    <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
+                </div>
+                <div id="show-interval">
+                    <p>Délai de rafraichissement (min)</p>
+                    <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok saved hide">Enregistré</span>
+                </div>
             </div>
         </div>
         <div class="fav-journee">

@@ -26,6 +26,9 @@ function getSavedStations() {
     var favStation;
     if (localStorage['bql-fav-station'] != undefined) {
         favStation = localStorage['bql-fav-station'];
+
+        // Display checkbok count badge
+        $('#icon-number').removeClass('hide');
     }
     if (localStorage['bql-fav-stations'] != undefined) {
         var savedStationsIds = localStorage['bql-fav-stations'].split(',');
@@ -103,6 +106,13 @@ function displayFavJournee(e) {
 function saveFavStation() {
     var stationId = $('#fav-stations-choice').val();
     localStorage['bql-fav-station'] = stationId;
+
+    // Display icon badge options
+    if ($('#icon-number').hasClass('hide')) {
+        $('#icon-number').removeClass('hide');
+    }
+
+    // Show validation message
     $('.fav-station-change-ok').removeClass("hide");
     setTimeout(function() {
         $('.fav-station-change-ok').addClass("hide");
@@ -130,6 +140,11 @@ function saveJournee() {
 function init() {
     // Get added stations
     getSavedStations();
+
+    // Remove orange message if saved stations are not empty
+    if (localStorage['bql-fav-stations'] != undefined) {
+        $('#empty-message').addClass('hide');
+    }
 
     // Set number checkbox value
     if (localStorage['bql-show-number'] != undefined) {

@@ -24,8 +24,14 @@ label {
     cursor: pointer;
 }
 
-.fav-station {
+#empty-message {
+    color: #ef5800;
+    font-weight: bold;
     margin-bottom: 20px;
+}
+
+.fav-station {
+    margin-bottom: 40px;
 }
 
 .check-option label, .check-option input {

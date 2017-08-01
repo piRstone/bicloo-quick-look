@@ -111,6 +111,15 @@ span.number {
     background: -webkit-linear-gradient(-45deg, #EB3349 0%,#F45C43 100%);
 }
 
+#fav-journee .fav-j-title {
+    margin: 0;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
 #fav-journee ul {
     list-style-type: none;
     margin: 0;
@@ -124,13 +133,25 @@ span.number {
 }
 
 #fav-journee .road {
-    font-size: 30px;
+    font-size: 70px;
     color: #fff;
+    line-height: 38px;
 }
 
 #fav-journee .journee-station span {
     display: block;
     color: #fff;
+}
+
+#fav-journee .journee-station .count.bikes img {
+    height: 26px;
+    margin-right: 5px;
+    margin-bottom: -7px;
+}
+
+#fav-journee .journee-station .count.stands img {
+    height: 15px;
+    margin-right: 5px;
 }
 
 #fav-journee .journee-station .station-name {
