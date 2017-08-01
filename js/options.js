@@ -1,4 +1,3 @@
-var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
 var DEFAULT_INTERVAL = 15;
 
 function initFavJournee(stations) {
@@ -22,7 +21,7 @@ function initFavJournee(stations) {
 }
 
 function getSavedStations() {
-    var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
+    var url = "http://www.pirstone.com/webapps/bql/stations.php";
     var favStation;
     if (localStorage['bql-fav-station'] != undefined) {
         favStation = localStorage['bql-fav-station'];
@@ -34,6 +33,7 @@ function getSavedStations() {
         var savedStationsIds = localStorage['bql-fav-stations'].split(',');
         var savedStations = [];
         $.get(url, function(data) {
+            var data = JSON.parse(data);
             var select = $('#fav-stations-choice');
             for(var i=0 ; i < savedStationsIds.length ; i++) {
                 for(var j=0 ; j < data.length ; j++) {
@@ -60,8 +60,9 @@ function getSavedStations() {
 }
 
 function getStationAvailableBikesCount(stationId, success) {
-    var url = "https://api.jcdecaux.com/vls/v1/stations/"+stationId+"?contract=nantes&apiKey="+apiKey;
+    var url = "http://www.pirstone.com/webapps/bql/station.php?id="+stationId;
     $.get(url, function(data) {
+        var data = JSON.parse(data);
         if (data.available_bikes != undefined) {
             success(data.available_bikes);
         } else {
@@ -76,7 +77,7 @@ function displayIconNumber(e) {
     if (e.target.checked == true) {
         $('#show-interval').removeClass("hide");
         // Set bikes count in icon
-        getStationAvailableBikesCount(17, function(count) {
+        getStationAvailableBikesCount(parseInt(localStorage['bql-fav-station']), function(count) {
             chrome.browserAction.setBadgeText({text: count.toString()});
             if (count == 0 || count == '*') {
                 chrome.browserAction.setBadgeBackgroundColor({color: "red"});

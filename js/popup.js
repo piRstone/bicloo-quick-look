@@ -3,8 +3,10 @@ var stations = [];
 
 
 function getStations(success) {
-    var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
+    // var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
+    var url = "http://www.pirstone.com/webapps/bql/stations.php";
     $.get(url, function(data) {
+        var data = JSON.parse(data);
         // Sort stations by id
         data.sort(function(a, b) {
             if (a.number < b.number)
@@ -94,7 +96,7 @@ function getStationInfos(stationId) {
 }
 
 function loadAddedStations() {
-    if (localStorage['bql-fav-stations'] != undefined) {
+    if (localStorage['bql-fav-stations'] != undefined && localStorage['bql-fav-stations'] != '') {
         var savedStation = localStorage['bql-fav-stations'].split(',');
         for(var i=0 ; i < savedStation.length ; i++) {
             displayInfos(getStationInfos(savedStation[i]));
@@ -108,12 +110,12 @@ function showStationsList() {
         $('#station-list').off('click', 'p', addStation);
 
         // Hide list of stations
-        $('#stations').removeClass('hide');
+        $('#main').removeClass('hide');
         $('#stations-list').addClass('hide');
         $('#add-station').removeClass('open');
     } else {
         // Display list of stations
-        $('#stations').addClass('hide');
+        $('#main').addClass('hide');
         $('#stations-list').removeClass('hide');
         $('#add-station').addClass('open');
     }
@@ -129,6 +131,11 @@ function showStationsList() {
 function addStation(event) {
     // Close stations list
     showStationsList();
+
+    // Hide empty message if no station where added before
+    if (!$('#empty-stations').hasClass('hide')) {
+        $('#empty-stations').addClass('hide');
+    }
 
     var stationId = event.target.id.substring(12);
 
@@ -162,7 +169,28 @@ function deleteStation(event) {
     var savedStation = localStorage['bql-fav-stations'].split(',');
     var i = savedStation.indexOf(id);
     savedStation.splice(i, 1);
-    localStorage['bql-fav-stations'] = savedStation;
+
+    if (localStorage['bql-fav-station'] != undefined && id == parseInt(localStorage['bql-fav-station'])) {
+        chrome.browserAction.setBadgeText({text: ""});
+        localStorage.removeItem('bql-fav-station');
+        localStorage.removeItem('bql-show-number');
+    }
+
+    if (localStorage['bql-beg-station'] != undefined && (id == parseInt(localStorage['bql-beg-station']) || id == parseInt(localStorage['bql-end-station']))) {
+        localStorage.removeItem('bql-beg-station');
+        localStorage.removeItem('bql-end-station');
+        localStorage.removeItem('bql-display-fav-journee');
+        $('#fav-journee').addClass('hide');
+    }
+
+    if (savedStation.length == 0) {
+        // If no more saved stations, clear all settings
+        localStorage.clear();
+        $('#empty-stations').removeClass('hide');
+        $('#fav-journee').addClass('hide');
+    } else {
+        localStorage['bql-fav-stations'] = savedStation;
+    }
 }
 
 function showFavJournee() {
@@ -222,11 +250,17 @@ function openOptions() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Remove message if stations are already added
+    if (localStorage['bql-fav-stations'] != undefined && localStorage['bql-fav-stations'] != '') {
+        $('#empty-stations').addClass('hide');
+    }
+
     // Load stations
     getStations(function() {
         loadAddedStations();
         showFavJournee();
         updateCountBadge();
+
 
         $('#settings').click(openOptions);
         $('#add-station').click(showStationsList);
