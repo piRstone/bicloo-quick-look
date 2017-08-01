@@ -102,6 +102,11 @@ function setRefreshInterval() {
 
 function displayFavJournee(e) {
     localStorage['bql-display-fav-journee'] = e.target.checked;
+    if (e.target.checked == true) {
+        $('#select-fav-journee-stations').removeClass('hide');
+    } else {
+        $('#select-fav-journee-stations').addClass('hide');
+    }
 }
 
 function saveFavStation() {
@@ -168,6 +173,7 @@ function init() {
     if (localStorage['bql-display-fav-journee'] != undefined) {
         if (JSON.parse(localStorage['bql-display-fav-journee']) == true) {
             $('#show-fav-station').prop("checked", true);
+            $('#select-fav-journee-stations').removeClass('hide');
         }
     }
 }

@@ -39,14 +39,16 @@
                 <input type="checkbox" id="show-fav-station" />
                 <label for="show-fav-station">Afficher le trajet préféré</label>
             </div>
-            <select id="begin-station">
-                <option disabled selected>Station de départ</select>
-            </select>
-            <select id="end-station">
-                <option disabled selected>Station d'arrivée</select>
-            </select>
-            <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
-            <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
+            <div id="select-fav-journee-stations" class="hide">
+                <select id="begin-station">
+                    <option disabled selected>Station de départ</select>
+                </select>
+                <select id="end-station">
+                    <option disabled selected>Station d'arrivée</select>
+                </select>
+                <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
+                <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
+            </div>
         </div>
     </body>
 </html>
