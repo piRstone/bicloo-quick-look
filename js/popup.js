@@ -1,9 +1,6 @@
-var apiKey = "e9e260718f3e80217b7d67cc20cd05a27019862c";
 var stations = [];
 
-
 function getStations(success) {
-    // var url = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey="+apiKey;
     var url = "http://www.pirstone.com/webapps/bql/stations.php";
     $.get(url, function(data) {
         var data = JSON.parse(data);
