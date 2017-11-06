@@ -101,7 +101,12 @@ function loadAddedStations() {
     }
 }
 
-function showStationsList() {
+function showStationsList(e) {
+    // Track stations list display
+    if (e !== undefined) {
+        _gaq.push(['_trackEvent', e.target.id, 'Show stations list']);
+    }
+
     if ($('#add-station').hasClass('open')) {
         // Remove all event handlers of stations to add list
         $('#station-list').off('click', 'p', addStation);
@@ -126,6 +131,9 @@ function showStationsList() {
 }
 
 function addStation(event) {
+    // Track station adding
+    _gaq.push(['_trackEvent', event.target.id, 'Adding station']);
+
     // Close stations list
     showStationsList();
 
@@ -263,3 +271,14 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#add-station').click(showStationsList);
     });
 });
+
+// Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-109217041-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
