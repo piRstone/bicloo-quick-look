@@ -124,9 +124,12 @@ function showStationsList(e) {
 
     // Add stations to list
     var list = $('#stations-list');
-    for(var i=0 ; i < stations.length ; i++) {
-        list.append('<p id="add-station-'+stations[i].number+'" class="station-to-add">'+stations[i].name.substring(3)+'</p>');
-        $('#add-station-'+stations[i].number).click(addStation);
+    if (!list.hasClass('loaded')) {
+        for(var i=0 ; i < stations.length ; i++) {
+            list.append('<p id="add-station-'+stations[i].number+'" class="station-to-add">'+stations[i].name.substring(3)+'</p>');
+            $('#add-station-'+stations[i].number).click(addStation);
+        }
+        list.addClass('loaded');
     }
 }
 

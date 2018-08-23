@@ -1,4 +1,4 @@
-var DEFAULT_INTERVAL = 15;
+var DEFAULT_INTERVAL = 10;
 
 function initFavJournee(stations) {
     // Fill selects options
@@ -186,3 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#show-fav-station').change(displayFavJournee);
     $('.validate-fav-journee').click(saveJournee);
 });
+
+var _gaq = _gaq || [];
+_gaq.push(['_trackPageview']);

@@ -90,3 +90,12 @@ p, label {
 #settings:hover {
     opacity: 1;
 }
+
+footer {
+    margin-top: 10px;
+}
+
+footer p {
+    font-size: 12px;
+    color: #b3b3b3;
+}

@@ -78,6 +78,10 @@ span.number {
     border-top-right-radius: 3px;
 }
 
+#stations-list .station-to-add:first-child:hover {
+    border-bottom: 1px solid #ef5800;
+}
+
 #stations-list .station-to-add:last-child {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
@@ -85,6 +89,7 @@ span.number {
 
 #stations-list .station-to-add:hover {
     background-color: #ef5800;
+    border-bottom: 1px solid #ef5800;
     color: #f3f3f3;
     padding-left: 5px;
 }

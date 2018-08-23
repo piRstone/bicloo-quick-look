@@ -31,7 +31,7 @@ if (localStorage['bql-show-number'] != undefined && JSON.parse(localStorage['bql
     if (localStorage['bql-refresh-interval'] != undefined) {
         intervalInMinutes = JSON.parse(localStorage['bql-refresh-interval']);
     } else {
-        intervalInMinutes = 15;
+        intervalInMinutes = 10;
     }
     var interval = 1000 * 60 * intervalInMinutes;
     setInterval(function() {
