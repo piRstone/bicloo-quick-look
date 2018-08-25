@@ -1,7 +1,7 @@
 var stations = [];
 
 function getStations(success) {
-    var url = "http://www.pirstone.com/webapps/bql/stations.php";
+    var url = "https://www.pirstone.com/webapps/bql/stations.php";
     $.get(url, function(data) {
         var data = JSON.parse(data);
         // Sort stations by id

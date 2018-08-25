@@ -1,6 +1,6 @@
 
 function getStationInfos(stationId) {
-    var url = "http://www.pirstone.com/webapps/bql/station.php?id="+stationId;
+    var url = "https://www.pirstone.com/webapps/bql/station.php?id="+stationId;
     var x = new XMLHttpRequest();
     x.open('GET', url);
     x.responseType = 'json';
