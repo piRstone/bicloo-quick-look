@@ -25,7 +25,11 @@
     },
     "options_page": "options.html",
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "notifications"
+    ],
+    "web_accessible_resources": [
+        "icon32.png"
     ],
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }

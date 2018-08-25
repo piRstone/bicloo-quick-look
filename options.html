@@ -48,6 +48,19 @@
                 </select>
                 <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
                 <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
+
+                <div style="margin-top: 10px;">
+                    <input type="checkbox" id="notify-fav-journey" />
+                    <label for="notify-fav-journey">Me notifier de mon trajet préféré à une certaine heure</label>
+                    <p class="detail">Recevoir une notification n'indiquant la faisabilité de mon trajet préféré à une heure que j'aurais configurée.</p>
+                </div>
+                <div id="notify-fav-journey-hour" class="hide">
+                    <div>
+                        <label for="notify-hour">Heure de notification</label>
+                        <input type="time" id="notify-hour" />
+                        <button type="button" class="validate-notif-hour">Ok</button> <span class="notif-hour-change-ok saved hide">Enregistré</span>
+                    </div>
+                </div>
             </div>
         </div>
         <footer>

@@ -83,6 +83,15 @@ button:hover {
     font-weight: normal;
 }
 
+.detail {
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+#notify-fav-journey-hour {
+    margin-left: 20px;
+}
+
 footer {
     margin-top: 20px;
 }

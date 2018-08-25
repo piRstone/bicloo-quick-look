@@ -125,7 +125,7 @@ function saveFavStation() {
     }, 2000);
 }
 
-function saveJournee() {
+function saveJourney() {
     var begin = $('#begin-station').val();
     var end = $('#end-station').val();
     if (begin != end) {
@@ -141,6 +141,65 @@ function saveJournee() {
             $('.fav-journee-error').addClass("hide");
         }, 4000);
     }
+}
+
+function displayFavJourneyNotification(e) {
+    localStorage['bql-display-fav-journey-notification'] = e.target.checked;
+    if (e.target.checked == true) {
+        $('#notify-fav-journey-hour').removeClass('hide');
+    } else {
+        $('#notify-fav-journey-hour').addClass('hide');
+    }
+}
+
+function saveFavJourneyNotifHour() {
+    var hour = $('#notify-hour').val();
+    localStorage['bql-notification-hour'] = hour;
+    $('.notif-hour-change-ok').removeClass('hide');
+    setTimeout(function() {
+        $('.notif-hour-change-ok').addClass('hide');
+    }, 4000);
+}
+
+function notifyFavJourney() {
+    var startId = localStorage['bql-beg-station'];
+    var endId = localStorage['bql-end-station'];
+    var startStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + startId);
+    var endStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + endId);
+    $.when(startStation, endStation).done(function (beg, end) {
+        var stations = {
+            beg: JSON.parse(beg[0]),
+            end: JSON.parse(end[0])
+        };
+
+        var bikesCount = stations.beg.available_bikes;
+        var standsCount = stations.end.available_bike_stands;
+        var title;
+
+        if (bikesCount == 0 || standsCount == 0) {
+            title = '⛔️ Trajet impossible';
+        } else if ((bikesCount > 0 && bikesCount <= 2) ||
+            (standsCount > 0 && standsCount <= 2)) {
+            title = '⚠️ Trajet risqué';
+        } else {
+            title = '✅ Trajet possible';
+        }
+
+        var bikes = bikesCount > 1 ? bikesCount.toString() + ' vélos' : bikesCount.toString() + ' vélo';
+        var stands = standsCount > 1 ? standsCount.toString() + ' places' : standsCount.toString() + ' place';
+
+        var options = {
+            type: 'basic',
+            title: 'Bicloo Quick Look',
+            contextMessage: title,
+            message: 'Départ : ' + bikes + ' | Arrivée : ' + stands,
+            iconUrl: 'icon128.png'
+        }
+        chrome.notifications.create(
+            undefined,
+            options
+        );
+    });
 }
 
 function init() {
@@ -169,11 +228,24 @@ function init() {
         $('#interval').val(DEFAULT_INTERVAL);
     }
 
-    // Set fav journee checkbox
+    // Set fav journey checkbox
     if (localStorage['bql-display-fav-journee'] != undefined) {
         if (JSON.parse(localStorage['bql-display-fav-journee']) == true) {
             $('#show-fav-station').prop("checked", true);
             $('#select-fav-journee-stations').removeClass('hide');
+        }
+
+        // Set notification checkbox
+        if (localStorage['bql-display-fav-journey-notification'] != undefined) {
+            if (JSON.parse(localStorage['bql-display-fav-journey-notification']) == true) {
+                $('#notify-fav-journey').prop("checked", true);
+                $('#notify-fav-journey-hour').removeClass('hide');
+
+                // Set notification hour
+                if (localStorage['bql-notification-hour'] != undefined) {
+                    $('#notify-hour').val(localStorage['bql-notification-hour']);
+                }
+            }
         }
     }
 }
@@ -184,7 +256,9 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.validate-interval').click(setRefreshInterval);
     $('.validate-fav-station').click(saveFavStation);
     $('#show-fav-station').change(displayFavJournee);
-    $('.validate-fav-journee').click(saveJournee);
+    $('.validate-fav-journee').click(saveJourney);
+    $('#notify-fav-journey').click(displayFavJourneyNotification);
+    $('.validate-notif-hour').click(saveFavJourneyNotifHour);
 });
 
 var _gaq = _gaq || [];
