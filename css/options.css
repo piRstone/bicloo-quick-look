@@ -7,6 +7,15 @@ h1 {
     font-size: 40px;
 }
 
+h1 img {
+    height: 40px;
+    vertical-align: middle;
+}
+
+h1 span {
+    vertical-align: middle;
+}
+
 h2 {
     text-transform: uppercase;
     letter-spacing: 2px;

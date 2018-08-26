@@ -145,6 +145,7 @@ function saveJourney() {
 
 function displayFavJourneyNotification(e) {
     localStorage['bql-display-fav-journey-notification'] = e.target.checked;
+    chrome.runtime.sendMessage('notification'); // Update background script
     if (e.target.checked == true) {
         $('#notify-fav-journey-hour').removeClass('hide');
     } else {
@@ -155,51 +156,12 @@ function displayFavJourneyNotification(e) {
 function saveFavJourneyNotifHour() {
     var hour = $('#notify-hour').val();
     localStorage['bql-notification-hour'] = hour;
+    chrome.runtime.sendMessage('notification'); // Update background script
+
     $('.notif-hour-change-ok').removeClass('hide');
     setTimeout(function() {
         $('.notif-hour-change-ok').addClass('hide');
     }, 4000);
-}
-
-function notifyFavJourney() {
-    var startId = localStorage['bql-beg-station'];
-    var endId = localStorage['bql-end-station'];
-    var startStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + startId);
-    var endStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + endId);
-    $.when(startStation, endStation).done(function (beg, end) {
-        var stations = {
-            beg: JSON.parse(beg[0]),
-            end: JSON.parse(end[0])
-        };
-
-        var bikesCount = stations.beg.available_bikes;
-        var standsCount = stations.end.available_bike_stands;
-        var title;
-
-        if (bikesCount == 0 || standsCount == 0) {
-            title = '⛔️ Trajet impossible';
-        } else if ((bikesCount > 0 && bikesCount <= 2) ||
-            (standsCount > 0 && standsCount <= 2)) {
-            title = '⚠️ Trajet risqué';
-        } else {
-            title = '✅ Trajet possible';
-        }
-
-        var bikes = bikesCount > 1 ? bikesCount.toString() + ' vélos' : bikesCount.toString() + ' vélo';
-        var stands = standsCount > 1 ? standsCount.toString() + ' places' : standsCount.toString() + ' place';
-
-        var options = {
-            type: 'basic',
-            title: 'Bicloo Quick Look',
-            contextMessage: title,
-            message: 'Départ : ' + bikes + ' | Arrivée : ' + stands,
-            iconUrl: 'icon128.png'
-        }
-        chrome.notifications.create(
-            undefined,
-            options
-        );
-    });
 }
 
 function init() {
@@ -261,5 +223,13 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.validate-notif-hour').click(saveFavJourneyNotifHour);
 });
 
+// Analytics
 var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-109217041-1']);
 _gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();

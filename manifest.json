@@ -21,7 +21,7 @@
         "128": "icon128.png"
     },
     "background": {
-        "scripts": ["js/background.js"]
+        "scripts": ["js/jquery-3.2.1.min.js", "js/background.js"]
     },
     "options_page": "options.html",
     "permissions": [
