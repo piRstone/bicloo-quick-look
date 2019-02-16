@@ -21,7 +21,7 @@ function displayInfos(data) {
     // Title
     var title = document.createElement('h2');
     var text = document.createElement('span');
-    text.innerHTML = data.name.substring(6);
+    text.innerHTML = data.name.replace(/\#[0-9]{5}\s?\-\s?/g, ''); // Remove station number prefix (#00XXX - )
     var stationId = document.createElement('span');
     stationId.innerHTML = ' - ' + data.number;
     stationId.className = 'station-id';
@@ -126,7 +126,8 @@ function showStationsList(e) {
     var list = $('#stations-list');
     if (!list.hasClass('loaded')) {
         for(var i=0 ; i < stations.length ; i++) {
-            list.append('<p id="add-station-'+stations[i].number+'" class="station-to-add">'+stations[i].name.substring(3)+'</p>');
+            var stationName = stations[i].name.substring(3).replace('-', ' - ');
+            list.append('<p id="add-station-' + stations[i].number + '" class="station-to-add">' + stationName + '</p>');
             $('#add-station-'+stations[i].number).click(addStation);
         }
         list.addClass('loaded');
@@ -211,12 +212,12 @@ function showFavJournee() {
 
             // Create origin station div
             var begDiv = $('<li class="journee-station"></li>');
-            begDiv.append('<span class="station-name">'+beg.name.substring(6)+'</span>');
+            begDiv.append('<span class="station-name">' + beg.name.replace(/\#[0-9]{5}\s?\-\s?/g, '') + '</span>');
             begDiv.append('<span class="count bikes"><img src="bike.png" alt="bike"/>'+beg.available_bikes+'</span>');
 
             // Create arrival station div
             var endDiv = $('<li class="journee-station"></li>');
-            endDiv.append('<span class="station-name">'+end.name.substring(6)+'</span>');
+            endDiv.append('<span class="station-name">' + end.name.replace(/\#[0-9]{5}\s?\-\s?/g, '') + '</span>');
             endDiv.append('<span class="count stands"><img src="marker.png" alt="station"/>'+end.available_bike_stands+'</span>');
 
             // Add data in journee block
