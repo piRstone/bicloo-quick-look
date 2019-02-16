@@ -11,61 +11,63 @@
         <link rel="stylesheet" href="css/options.css">
     </head>
     <body>
-        <h1><img src="icon128.png" /> <span>Bicloo Quick Look</span></h1>
-        <h2>Options</h2>
-        <p id="empty-message">Ajoutez des stations pour configurer vos paramètres.</p>
-        <div class="fav-station">
-            <h3>Ma station préférée</h3>
-            <select id="fav-stations-choice">
-                <option disabled selected>Ma station préférée</select>
-            </select>
-            <button type="button" class="validate-fav-station">Ok</button> <span class="fav-station-change-ok saved hide">Enregistré</span>
-
-            <div id="icon-number" class="hide">
-                <div class="check-option">
-                    <input type="checkbox" id="show-icon-label" />
-                    <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
-                </div>
-                <div id="show-interval">
-                    <p>Délai de rafraichissement (min)</p>
-                    <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok saved hide">Enregistré</span>
-                </div>
-            </div>
-        </div>
-        <div class="fav-journee">
-            <h3>Mon trajet préféré</h3>
-            <p>Voyez d'un coup d'œil si un vélo et une place sont disponible pour effectuer votre trajet préféré</p>
-            <div>
-                <input type="checkbox" id="show-fav-station" />
-                <label for="show-fav-station">Afficher le trajet préféré</label>
-            </div>
-            <div id="select-fav-journee-stations" class="hide">
-                <select id="begin-station">
-                    <option disabled selected>Station de départ</select>
+        <div class="wrapper">
+            <h1><img src="icon128.png" /> <span>Bicloo Quick Look</span></h1>
+            <h2>Options</h2>
+            <p id="empty-message">Ajoutez des stations pour configurer vos paramètres.</p>
+            <div class="fav-station">
+                <h3>Ma station préférée</h3>
+                <select id="fav-stations-choice">
+                    <option disabled selected>Ma station préférée</select>
                 </select>
-                <select id="end-station">
-                    <option disabled selected>Station d'arrivée</select>
-                </select>
-                <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
-                <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
+                <button type="button" class="validate-fav-station">Ok</button> <span class="fav-station-change-ok saved hide">Enregistré</span>
 
-                <div style="margin-top: 10px;">
-                    <input type="checkbox" id="notify-fav-journey" />
-                    <label for="notify-fav-journey">Me notifier de mon trajet préféré à une certaine heure</label>
-                    <p class="detail">Recevoir une notification n'indiquant la faisabilité de mon trajet préféré à une heure que j'aurais configurée.</p>
-                </div>
-                <div id="notify-fav-journey-hour" class="hide">
-                    <div>
-                        <label for="notify-hour">Heure de notification</label>
-                        <input type="time" id="notify-hour" />
-                        <button type="button" class="validate-notif-hour">Ok</button> <span class="notif-hour-change-ok saved hide">Enregistré</span>
+                <div id="icon-number" class="hide">
+                    <div class="check-option">
+                        <input type="checkbox" id="show-icon-label" />
+                        <label for="show-icon-label">Afficher le nombre de vélos pour ma station préférée</label>
+                    </div>
+                    <div id="show-interval">
+                        <p>Délai de rafraichissement (min)</p>
+                        <input type="number" id="interval" /> <button type="button" class="validate-interval">Ok</button> <span class="interval-change-ok saved hide">Enregistré</span>
                     </div>
                 </div>
             </div>
+            <div class="fav-journee">
+                <h3>Mon trajet préféré</h3>
+                <p>Voyez d'un coup d'œil si un vélo et une place sont disponible pour effectuer votre trajet préféré.</p>
+                <div>
+                    <input type="checkbox" id="show-fav-station" />
+                    <label for="show-fav-station">Afficher le trajet préféré</label>
+                </div>
+                <div id="select-fav-journee-stations" class="hide">
+                    <select id="begin-station">
+                        <option disabled selected>Station de départ</select>
+                    </select>
+                    <select id="end-station">
+                        <option disabled selected>Station d'arrivée</select>
+                    </select>
+                    <button type="button" class="validate-fav-journee">Ok</button> <span class="fav-journee-change-ok saved hide">Enregistré</span>
+                    <p class="fav-journee-error error hide">Les stations de début et de fin ne doivent pas être identiques</p>
+
+                    <div style="margin-top: 10px;">
+                        <input type="checkbox" id="notify-fav-journey" />
+                        <label for="notify-fav-journey">Me notifier de mon trajet préféré à une certaine heure <span class="beta">bêta</span></label>
+                        <p class="detail">Recevoir une notification n'indiquant la faisabilité de mon trajet préféré à une certaine heure.</p>
+                    </div>
+                    <div id="notify-fav-journey-hour" class="hide">
+                        <div>
+                            <label for="notify-hour">Heure de notification</label>
+                            <input type="time" id="notify-hour" />
+                            <button type="button" class="validate-notif-hour">Ok</button> <span class="notif-hour-change-ok saved hide">Enregistré</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p>Bicloo Quick Look v1.1.0 - <a href="https://www.pirstone.com" target="_blank" rel="noreferrer", rel="noopener">piRstone.com</a></p>
+                <p>Pour toute remarque ou suggestion, envoyez un mail à <a href="mailto:contact@pirstone.com?subject=Bicloo Quick Look">contact@pirstone.com</a>.</p>
+            </footer>
         </div>
-        <footer>
-            <p>Bicloo Quick Look v1.1.0 - <a href="https://www.pirstone.com">piRstone.com</a></p>
-            <p>Pour toute remarque ou suggestion, envoyez un mail à <a href="mailto:contact@pirstone.com?subject=Bicloo Quick Look">contact@pirstone.com</a>.</p>
-        </footer>
     </body>
 </html>
