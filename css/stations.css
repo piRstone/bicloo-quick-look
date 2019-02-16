@@ -138,9 +138,12 @@ span.number {
 }
 
 #fav-journee .road {
-    font-size: 70px;
-    color: #fff;
     line-height: 38px;
+}
+
+#fav-journee .road img {
+    height: 25px;
+    margin-top: 11px;
 }
 
 #fav-journee .journee-station span {

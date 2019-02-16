@@ -1,12 +1,13 @@
 body {
-    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    /* font-family: 'Source Sans Pro', Helvetica, sans-serif; */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;;
     width: 400px;
     color: #2c2c2f;
     background-color: #f3f3f3;
 }
 
 h1 {
-    margin-bottom: 15px;
+    margin: 0;
 }
 
 h2 {
@@ -16,7 +17,7 @@ h2 {
 }
 
 p, label {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     margin: 0;
     margin-bottom: 5px;
@@ -30,15 +31,24 @@ p, label {
     display: none;
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
 .options {
-    position: absolute;
-    top: 22px;
-    right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 10px;
 }
 
 #add-station {
     display: inline-block;
-    vertical-align: middle;
     margin-right: 10px;
     cursor: pointer;
 }
@@ -48,7 +58,6 @@ p, label {
     font-weight: bold;
     color: #13d013;
     line-height: 15px;
-    vertical-align: middle;
 }
 
 #add-station #close-add-stations {
@@ -84,7 +93,6 @@ p, label {
     background-repeat: no-repeat;
     opacity: .5;
     cursor: pointer;
-    vertical-align: middle;
 }
 
 #settings:hover {

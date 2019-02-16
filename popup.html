@@ -10,17 +10,21 @@
         <link rel="stylesheet" href="css/stations.css">
     </head>
     <body>
-        <h1>Bicloo Quick Look</h1>
-        <div class="options">
-            <a id="add-station"><span class="plus" title="Ajouter une station">+</span><span id="close-add-stations" class="hide">Fermer</span></a>
-            <a id="settings" title="Options"></a>
+        <div class="header">
+            <h1>Bicloo Quick Look</h1>
+            <div class="options">
+                <a id="add-station"><span class="plus" title="Ajouter une station">+</span><span id="close-add-stations" class="hide">Fermer</span></a>
+                <a id="settings" title="Options"></a>
+            </div>
         </div>
         <div id="main">
             <p id="empty-stations">Ajoutez vos stations pour commencer &#8599;</p>
             <div id="fav-journee" class="hide">
                 <h5 class="fav-j-title">Mon trajet préféré</h5>
                 <ul>
-                    <li class="road">&#8594;</li>
+                    <li class="road">
+                        <img src="right-arrow.png" alt="arrow" />
+                    </li>
                 </ul>
                 <div class="clear"></div>
             </div>
