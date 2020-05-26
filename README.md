@@ -1,8 +1,14 @@
 # Bicloo Quick Look
 
-Version 1.2.0
+Version 1.2.1
 
 ### Changelog
+
+**v1.2.1 [2020-05-26]**
+
+Update API URL.
+
+Display stations number in add list.
 
 **v1.2.0 [2019-04-09]**
 
