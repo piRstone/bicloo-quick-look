@@ -21,7 +21,7 @@ function initFavJournee(stations) {
 }
 
 function getSavedStations() {
-    var url = "https://www.pirstone.com/webapps/bql/stations.php";
+    var url = "https://bql.pirstone.com/webapps/bql/stations.php";
     var favStation;
     if (localStorage['bql-fav-station'] != undefined) {
         favStation = localStorage['bql-fav-station'];
@@ -60,7 +60,7 @@ function getSavedStations() {
 }
 
 function getStationAvailableBikesCount(stationId, success) {
-    var url = "https://www.pirstone.com/webapps/bql/station.php?id="+stationId;
+    var url = "https://bql.pirstone.com/webapps/bql/station.php?id="+stationId;
     $.get(url, function(data) {
         var data = JSON.parse(data);
         if (data.available_bikes != undefined) {

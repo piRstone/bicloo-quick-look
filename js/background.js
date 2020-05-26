@@ -1,6 +1,6 @@
 
 function getStationInfos(stationId) {
-    var url = "https://www.pirstone.com/webapps/bql/station.php?id="+stationId;
+    var url = "https://bql.pirstone.com/webapps/bql/station.php?id="+stationId;
     var x = new XMLHttpRequest();
     x.open('GET', url);
     x.responseType = 'json';
@@ -25,8 +25,8 @@ function getStationInfos(stationId) {
 function notifyFavJourney() {
     var startId = localStorage['bql-beg-station'];
     var endId = localStorage['bql-end-station'];
-    var startStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + startId);
-    var endStation = $.get("https://www.pirstone.com/webapps/bql/station.php?id=" + endId);
+    var startStation = $.get("https://bql.pirstone.com/webapps/bql/station.php?id=" + startId);
+    var endStation = $.get("https://bql.pirstone.com/webapps/bql/station.php?id=" + endId);
     $.when(startStation, endStation).done(function (beg, end) {
         var stations = {
             beg: JSON.parse(beg[0]),

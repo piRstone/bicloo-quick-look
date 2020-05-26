@@ -1,7 +1,7 @@
 var stations = [];
 
 function getStations(success) {
-    var url = "https://www.pirstone.com/webapps/bql/stations.php";
+    var url = "https://bql.pirstone.com/webapps/bql/stations.php";
     $.get(url, function(data) {
         var data = JSON.parse(data);
         // Sort stations by id
@@ -126,7 +126,7 @@ function showStationsList(e) {
     var list = $('#stations-list');
     if (!list.hasClass('loaded')) {
         for(var i=0 ; i < stations.length ; i++) {
-            var stationName = stations[i].name.substring(3).replace('-', ' - ');
+            var stationName = stations[i].name.replace('-', ' - ');
             list.append('<p id="add-station-' + stations[i].number + '" class="station-to-add">' + stationName + '</p>');
             $('#add-station-'+stations[i].number).click(addStation);
         }
