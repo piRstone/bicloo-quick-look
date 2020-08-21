@@ -63,6 +63,16 @@ span.number {
     font-weight: bold;
 }
 
+#stations-list #search {
+    border: none;
+    background-color: #e2e2e2;
+    border-radius: 5px;
+    width: 100%;
+    padding: 7px 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
 #stations-list .station-to-add {
     padding: 5px 0;
     font-weight: bold;
@@ -78,13 +88,13 @@ span.number {
     border-top-right-radius: 3px;
 }
 
-#stations-list .station-to-add:first-child:hover {
-    border-bottom: 1px solid #ef5800;
-}
-
 #stations-list .station-to-add:last-child {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+#stations-list .station-to-add:first-child:hover {
+    border-bottom: 1px solid #ef5800;
 }
 
 #stations-list .station-to-add:hover {

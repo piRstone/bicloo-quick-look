@@ -115,11 +115,17 @@ function showStationsList(e) {
         $('#main').removeClass('hide');
         $('#stations-list').addClass('hide');
         $('#add-station').removeClass('open');
+
+        // Remove search input listener
+        $('#search').off('keyup');
     } else {
         // Display list of stations
         $('#main').addClass('hide');
         $('#stations-list').removeClass('hide');
         $('#add-station').addClass('open');
+
+        // Handle search input changes
+        $('#search').on('keyup', searchStation);
     }
 
     // Add stations to list
@@ -134,8 +140,16 @@ function showStationsList(e) {
     }
 }
 
+function searchStation() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $('.station-to-add').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+}
+
 function addStation(event) {
-    // Track station adding
+    // Track station add
     _gaq.push(['_trackEvent', event.target.id, 'Adding station']);
 
     // Close stations list
