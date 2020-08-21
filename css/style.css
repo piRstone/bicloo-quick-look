@@ -83,6 +83,23 @@ p, label {
     display: inline-block;
 }
 
+#server-error {
+    font-size: 12px;
+    color: #b3b3b3;
+    text-align: center;
+    margin: 60px 10px;
+}
+
+#server-error span {
+    display: block;
+}
+
+#server-error span:first-child {
+    font-size: 14px;
+    color: #f90000;
+    margin-bottom: 10px;
+}
+
 #settings {
     display: inline-block;
     height: 15px;

@@ -1,9 +1,10 @@
 var stations = [];
 
-function getStations(success) {
+function getStations(success, error) {
     var url = "https://bql.pirstone.com/webapps/bql/stations.php";
     $.get(url, function(data) {
         var data = JSON.parse(data);
+        console.log(data);
         // Sort stations by id
         data.sort(function(a, b) {
             if (a.number < b.number)
@@ -14,7 +15,8 @@ function getStations(success) {
         });
         stations = data;
         success();
-    });
+    })
+    .fail(error);
 }
 
 function displayInfos(data) {
@@ -296,6 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $('#settings').click(openOptions);
         $('#add-station').click(showStationsList);
+    }, function() {
+        $("#server-error").removeClass("hide");
     });
 });
 
