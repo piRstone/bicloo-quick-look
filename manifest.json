@@ -3,7 +3,7 @@
 
     "name": "Bicloo Quick Look",
     "description": "Voyez en un clin d'oeil les vélos et places disponibles à vos stations préférées.",
-    "version": "1.2.1",
+    "version": "1.3.0",
 
     "browser_action": {
         "default_icon": {

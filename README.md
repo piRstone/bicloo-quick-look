@@ -1,8 +1,16 @@
 # Bicloo Quick Look
 
-Version 1.2.1
+Version 1.3.0
 
 ### Changelog
+
+**v1.3.0 [2020-05-26]**
+
+Add a search input to filter stations in the list.
+
+Add bikes and stands availabilities for each station in the list.
+
+Display an error message in case of request error.
 
 **v1.2.1 [2020-05-26]**
 
