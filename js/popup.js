@@ -133,7 +133,16 @@ function showStationsList(e) {
     if (!list.hasClass('loaded')) {
         for(var i=0 ; i < stations.length ; i++) {
             var stationName = stations[i].name.replace('-', ' - ');
-            list.append('<p id="add-station-' + stations[i].number + '" class="station-to-add">' + stationName + '</p>');
+            var p = $('<p id="add-station-' + stations[i].number + '" class="station-to-add">' + stationName + '</p>');
+            p.append(
+                '<span style="text-align: right">🚲 ' +
+                stations[i].available_bikes +
+                '  📍 ' +
+                stations[i].available_bike_stands +
+                '</span>'
+            );
+
+            list.append(p);
             $('#add-station-'+stations[i].number).click(addStation);
         }
         list.addClass('loaded');

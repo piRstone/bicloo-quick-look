@@ -83,6 +83,13 @@ span.number {
     margin-bottom: 0;
 }
 
+#stations-list .station-to-add span {
+    float: right;
+    color: black;
+    font-size: 12px;
+    font-weight: normal;
+}
+
 #stations-list .station-to-add:first-child {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
