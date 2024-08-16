@@ -1,4 +1,4 @@
-import type { Station, StationResponse } from '../types/station';
+import type { Station, StationResponse } from '../../types/station';
 import apiClient from './client';
 
 const mapStationResponseToStation = (stationResponse: StationResponse): Station => ({
@@ -16,7 +16,6 @@ const mapStationResponseToStation = (stationResponse: StationResponse): Station 
 
 export async function getStations(): Promise<Station[]> {
   const response = await apiClient.get<StationResponse[]>('/stations');
-  console.log('response', response);
   return response.map(station => mapStationResponseToStation(station));
 }
 

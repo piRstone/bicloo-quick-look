@@ -14,7 +14,7 @@ const Layout = () => {
         <div className="flex items-center gap-2">
           {isStationsListOpen ? (
             <button className="bg-none" onClick={() => navigation("/")}>
-              <span className="text-sm text-white font-bold leading-2 bg-red-600 rounded-sm px-1">Fermer</span>
+              <span className="text-sm font-bold leading-2 text-red-600 hover:text-white hover:bg-red-600 rounded-sm px-1">Fermer</span>
             </button>
           ) : (
             <button className="bg-none" onClick={() => navigation("/stations")}>
