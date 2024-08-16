@@ -1,10 +1,20 @@
 import cogImage from "data-base64:assets/settings.png"
-import { useReducer } from "react"
+import { useEffect, useState } from "react"
+import type { Station } from '~types/station'
+import { getStations } from '~api/stations'
 
 import "./style.css"
 
 const IndexPopup = () => {
-  const [count, increase] = useReducer((c) => c + 1, 0)
+  const [stations, setStations] = useState<Station[]>([])
+
+  useEffect(() => {
+    init()
+  }, [])
+
+  const init = async () => {
+    setStations(await getStations())
+  }
 
   return (
     <div>
@@ -14,7 +24,7 @@ const IndexPopup = () => {
           <button className="bg-none">
             <span className="text-3xl text-green-500 font-bold leading-none">+</span>
           </button>
-          <button className="bg-none opacity-50 hover:opacity-100" onClick={() => increase()}>
+          <button className="bg-none opacity-50 hover:opacity-100" onClick={() => {}}>
             <img className="settings-icon" src={cogImage} alt="Settings" />
           </button>
         </div>

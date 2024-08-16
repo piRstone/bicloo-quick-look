@@ -1,4 +1,4 @@
-import { Station, StationResponse } from '../types/station';
+import type { Station, StationResponse } from '../types/station';
 import apiClient from './client';
 
 const mapStationResponseToStation = (stationResponse: StationResponse): Station => ({

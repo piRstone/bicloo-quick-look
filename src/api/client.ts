@@ -12,7 +12,7 @@ class ApiClient {
     // Add interceptor to set API key at the end of all request paths
     this.axiosInstance.interceptors.request.use
     this.axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-      config.url += `?contract=nantes&apiKey=${process.env.JCDECAUX_API_KEY}`
+      config.url += `?contract=nantes&apiKey=${process.env.PLASMO_PUBLIC_JCDECAUX_API_KEY}`
       return config
     })
   }
