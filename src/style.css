@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  width: 400px;
+  margin: 0.5rem;
+  @apply bg-gray-100;
+}
+
+.settings-icon {
+  width: 15px;
+  height: 15px;
+}
