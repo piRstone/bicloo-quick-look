@@ -1,5 +1,6 @@
 import type { Station } from '~types/station';
 
+const FAVORITE_STATION_KEY = 'bql-fav-station';
 const FAVORITE_STATIONS_KEY = 'bql-fav-stations';
 
 class StorageService {
@@ -15,10 +16,18 @@ class StorageService {
     localStorage.setItem(FAVORITE_STATIONS_KEY, JSON.stringify(updatedFavoriteStations));
   }
 
-  getFavoriteStations() {
-    console.log('getFavoriteStations');
+  getFavoriteStations(): Station['number'][] {
     const favoriteStations = JSON.parse(localStorage.getItem(FAVORITE_STATIONS_KEY)) as Station['number'][];
     return favoriteStations || [];
+  }
+
+  setFavoriteStation(stationNumber: Station['number'] | undefined) {
+    localStorage.setItem(FAVORITE_STATION_KEY, stationNumber ? String(stationNumber) : undefined);
+  }
+
+  getFavoriteStation(): number | undefined {
+    const favoriteStation = localStorage.getItem(FAVORITE_STATION_KEY);
+    return favoriteStation ? Number(favoriteStation) : undefined;
   }
 }
 
