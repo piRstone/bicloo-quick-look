@@ -2,6 +2,7 @@ import type { Station } from '~types/station';
 
 const FAVORITE_STATION_KEY = 'bql-fav-station';
 const FAVORITE_STATIONS_KEY = 'bql-fav-stations';
+const SHOW_BIKE_COUNT_KEY = "bql-show-number"
 
 class StorageService {
   addFavoriteStation(station: Station) {
@@ -28,6 +29,15 @@ class StorageService {
   getFavoriteStation(): number | undefined {
     const favoriteStation = localStorage.getItem(FAVORITE_STATION_KEY);
     return favoriteStation ? Number(favoriteStation) : undefined;
+  }
+
+  setShowBikeCount(showBikeCount: boolean) {
+    localStorage.setItem(SHOW_BIKE_COUNT_KEY, String(showBikeCount));
+  }
+
+  getShowBikeCount(): boolean {
+    const showBikeCount = localStorage.getItem(SHOW_BIKE_COUNT_KEY);
+    return showBikeCount ? Boolean(showBikeCount) : false;
   }
 }
 
