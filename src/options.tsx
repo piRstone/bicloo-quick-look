@@ -1,34 +1,23 @@
-import bqlLogo from "data-base64:assets/icon128.png";
-import { useEffect, useMemo, useState } from "react";
+import bqlLogo from "data-base64:assets/icon128.png"
+import { useEffect, useMemo, useState } from "react"
 
+import { getStations } from "~services/api/stations"
+import StorageService from "~services/storage"
+import type { Station } from "~types/station"
 
+import "./options.css"
 
-import { getStations } from "~services/api/stations";
-import StorageService from "~services/storage";
-import type { Station } from "~types/station";
-
-
-
-
-
-
-import "./options.css";
-
-
-
-import OptionsButton from "~components/OptionsButton";
-
-
-
-
+import OptionsButton from "~components/OptionsButton"
 
 const OptionsPage = () => {
   const [stations, setStations] = useState<Station[]>([])
-  const [favoriteStationsNumbers, setFavoriteStationsNumbers] = useState<Station["number"][]>([])
+  const [favoriteStationsNumbers] = useState<Station["number"][]>(StorageService.getFavoriteStations())
   const [favoriteStationNumber, setFavoriteStationNumber] = useState<Station["number"] | undefined>(undefined)
   const [favoriteStation, setFavoriteStation] = useState<Station | undefined>(undefined)
   const [favStationSaveStatus, setFavStationSaveStatus] = useState<boolean>(false)
-  const [showBikeCount, setShowBikeCount] = useState<boolean>(false)
+  const [showBikeCount, setShowBikeCount] = useState<boolean>(StorageService.getShowBikeCount())
+  const [refreshInterval, setRefreshInterval] = useState<number>(StorageService.getRefreshInterval())
+  const [refreshIntervalStatus, setRefreshIntervalStatus] = useState<boolean>(false)
 
   const favoriteStations = useMemo(
     () => stations.filter((station) => favoriteStationsNumbers.includes(station.number)),
@@ -42,13 +31,10 @@ const OptionsPage = () => {
   const init = async () => {
     const rawStations = await getStations()
     setStations(rawStations)
-    setFavoriteStationsNumbers(StorageService.getFavoriteStations())
 
     const favoriteStationNumber = StorageService.getFavoriteStation()
     setFavoriteStationNumber(favoriteStationNumber)
     setFavoriteStation(rawStations.find((station) => station.number === favoriteStationNumber))
-
-    setShowBikeCount(StorageService.getShowBikeCount())
   }
 
   const onChangeFavoriteStation = (stationNumber: string | undefined) => {
@@ -64,11 +50,19 @@ const OptionsPage = () => {
     setShowBikeCount(showBikeCount)
     if (showBikeCount) {
       const bikesCount = favoriteStation?.totalStands.availabilities.bikes
+      const refreshInterval = StorageService.getRefreshInterval()
+      StorageService.setRefreshInterval(refreshInterval ?? -1)
       chrome.action.setBadgeText({ text: bikesCount.toString() })
-      chrome.action.setBadgeBackgroundColor({ color: bikesCount > 0 ? 'green' : 'red' })
+      chrome.action.setBadgeBackgroundColor({ color: bikesCount > 0 ? "green" : "red" })
     } else {
       chrome.action.setBadgeText({ text: "" })
     }
+  }
+
+  const onChangeRefreshInterval = (value: number) => {
+    StorageService.setRefreshInterval(value)
+    setRefreshIntervalStatus(true)
+    setTimeout(() => setRefreshIntervalStatus(false), 2000)
   }
 
   return (
@@ -119,6 +113,24 @@ const OptionsPage = () => {
               Afficher le nombre de vélos pour ma station préférée.
             </label>
           </div>
+          {showBikeCount && (
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-gray-500">Délai de raffraichissement (en minutes)</p>
+              <div className="flex flex-row gap-2 items-center">
+                <input
+                  id="refresh-delay"
+                  type="number"
+                  min="1"
+                  max="60"
+                  className="px-2 pt-2 pb-1 text-lg bg-transparent border-b-4 border-gray-300 focus:border-green-500 outline-none"
+                  value={refreshInterval}
+                  onChange={(e) => setRefreshInterval(Number(e.target.value))}
+                />
+                <OptionsButton text="OK" onClick={() => onChangeRefreshInterval(refreshInterval)} />
+                {refreshIntervalStatus && <span className="text-sm text-green-500">Enregistré</span>}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
