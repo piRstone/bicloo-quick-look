@@ -49,7 +49,7 @@ const Home = () => {
           </div>
         </div>
       )}
-      <p className="text-sm text-gray-400">Bicloo Quick Look {process.env.PLASMO_PUBLIC_VERSION}</p>
+      <p className="text-sm text-gray-400">Bicloo Quick Look v{process.env.PLASMO_PUBLIC_VERSION}</p>
     </div>
   )
 }

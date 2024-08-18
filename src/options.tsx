@@ -212,6 +212,8 @@ const OptionsPage = () => {
             </div>
           )}
         </div>
+        <p className="text-xs text-gray-400">Bicloo Quick Look v{process.env.PLASMO_PUBLIC_VERSION} - Made with ❤️ by <a className="font-bold" href="https://pirstone.com" target="_blank" rel="noreferrer noopener">piRstone</a></p>
+        <p className="text-xs text-gray-400 mt-1">Pour toute remarque ou suggestion : <a className="font-bold" href="mailto:contact@pirstone.com">contact@pirstone.com</a></p>
       </div>
     </div>
   )
