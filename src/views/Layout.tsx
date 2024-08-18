@@ -22,7 +22,7 @@ const Layout = () => {
             </button>
           )}
           <button className="bg-none opacity-50 hover:opacity-100" onClick={() => chrome.runtime.openOptionsPage()}>
-            <img className="settings-icon" src={cogImage} alt="Settings" />
+            <img className="settings-icon mt-1" src={cogImage} alt="Settings" />
           </button>
         </div>
       </header>
