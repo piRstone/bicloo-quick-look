@@ -18,6 +18,16 @@ const OptionsPage = () => {
   const [showBikeCount, setShowBikeCount] = useState<boolean>(StorageService.getShowBikeCount())
   const [refreshInterval, setRefreshInterval] = useState<number>(StorageService.getRefreshInterval())
   const [refreshIntervalStatus, setRefreshIntervalStatus] = useState<boolean>(false)
+  const [showFavoriteJourney, setShowFavoriteJourney] = useState<boolean>(StorageService.getShowFavoriteJourney())
+  const [favoriteStartStationNumber, setFavoriteStartStationNumber] = useState<Station["number"]>(
+    StorageService.getFavoriteJourneyStations()[0]
+  )
+  const [favoriteEndStationNumber, setFavoriteEndStationNumber] = useState<Station["number"]>(
+    StorageService.getFavoriteJourneyStations()[1]
+  )
+  const [favoriteJourneySaveStatus, setFavoriteJourneySaveStatus] = useState<boolean>(false)
+
+  console.log("===", favoriteStartStationNumber, favoriteEndStationNumber)
 
   const favoriteStations = useMemo(
     () => stations.filter((station) => favoriteStationsNumbers.includes(station.number)),
@@ -65,6 +75,17 @@ const OptionsPage = () => {
     setTimeout(() => setRefreshIntervalStatus(false), 2000)
   }
 
+  const onChangeShowFavoriteJourney = (showFavoriteJourney: boolean) => {
+    StorageService.setShowFavoriteJourney(showFavoriteJourney)
+    setShowFavoriteJourney(showFavoriteJourney)
+  }
+
+  const onSaveFavoriteStations = () => {
+    StorageService.setFavoriteJourneyStations(favoriteStartStationNumber, favoriteEndStationNumber)
+    setFavoriteJourneySaveStatus(true)
+    setTimeout(() => setFavoriteJourneySaveStatus(false), 2000)
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="max-w-screen-2xl m-auto my-4">
@@ -74,7 +95,7 @@ const OptionsPage = () => {
         </header>
         <h2 className="text-2xl font-bold tracking-wider">OPTIONS</h2>
         <div className="favorite-station my-5">
-          <h3 className="text-base font-bold tracking-wider">MA STATION PRÉFÉRÉE</h3>
+          <h3 className="text-base font-bold tracking-wider mb-2">MA STATION PRÉFÉRÉE</h3>
           <p className="text-sm text-gray-500">
             Définissez votre station préférée pour afficher sur l'icône de l'extension le nombre de vélos disponibles.
           </p>
@@ -91,7 +112,11 @@ const OptionsPage = () => {
                   className="border p-1"
                   value={favoriteStationNumber}
                   onChange={(e) => onChangeFavoriteStation(e.target.value)}>
-                  {!favoriteStationNumber && <option value={undefined}>---</option>}
+                  {!favoriteStationNumber && (
+                    <option value={undefined} disabled>
+                      Sélectionnez une station préférée
+                    </option>
+                  )}
                   {favoriteStations.map((station) => (
                     <option key={station.number} value={station.number}>
                       {station.name}
@@ -128,6 +153,61 @@ const OptionsPage = () => {
                 />
                 <OptionsButton text="OK" onClick={() => onChangeRefreshInterval(refreshInterval)} />
                 {refreshIntervalStatus && <span className="text-sm text-green-500">Enregistré</span>}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="favorite-journey my-5">
+          <h3 className="text-base font-bold tracking-wider mb-2">MON TRAJET PRÉFÉRÉ</h3>
+          <p className="text-sm text-gray-500">
+            Voyez d'un coup d'œil si un vélo et une place sont disponibles pour effectuer votre trajet préféré.
+          </p>
+          <div className="flex flex-row gap-2 items-center my-3">
+            <input
+              id="show-favorite-journey"
+              type="checkbox"
+              checked={showFavoriteJourney}
+              onChange={(e) => onChangeShowFavoriteJourney(e.target.checked)}
+            />
+            <label htmlFor="show-favorite-journey" className="text-sm text-gray-500">
+              Afficher le trajet préférée.
+            </label>
+          </div>
+          {showFavoriteJourney && (
+            <div>
+              <div className="flex flex-row gap-2">
+                <select
+                  className="border p-1"
+                  value={favoriteStartStationNumber}
+                  onChange={(e) => setFavoriteStartStationNumber(Number(e.target.value))}>
+                  <option value={undefined} disabled={!!favoriteStartStationNumber}>
+                    Station de départ
+                  </option>
+                  {favoriteStations
+                    .filter((s) => s.number !== favoriteEndStationNumber)
+                    .map((station) => (
+                      <option key={station.number} value={station.number}>
+                        {station.name}
+                      </option>
+                    ))}
+                </select>
+                <select
+                  className="border p-1"
+                  value={favoriteEndStationNumber}
+                  onChange={(e) => setFavoriteEndStationNumber(Number(e.target.value))}>
+                  <option value={undefined} disabled={!!favoriteEndStationNumber}>
+                    Station d'arrivée
+                  </option>
+                  {favoriteStations
+                    .filter((s) => s.number !== favoriteStartStationNumber)
+                    .map((station) => (
+                      <option key={station.number} value={station.number}>
+                        {station.name}
+                      </option>
+                    ))}
+                </select>
+                <OptionsButton text="OK" onClick={onSaveFavoriteStations} />
+                {favoriteJourneySaveStatus && <span className="text-sm text-green-500">Enregistré</span>}
               </div>
             </div>
           )}
