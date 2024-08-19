@@ -19,7 +19,7 @@ const FavoriteJourney = ({ startStation, endStation }: FavoriteJourneyProps) => 
     } else if (startStation.totalStands.availabilities.bikes < 3 || endStation.totalStands.availabilities.stands < 3) {
       return "from-amber-600 to-amber-500"
     }
-    return "from-green-600 to-green-500"
+    return "from-lime-600 to-lime-500"
   }, [startStation, endStation])
 
   return (

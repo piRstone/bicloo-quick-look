@@ -1,12 +1,6 @@
-import { Storage } from "@plasmohq/storage";
+import { Storage } from "@plasmohq/storage"
 
-
-
-import type { Station } from "~types/station";
-
-
-
-
+import type { Station } from "~types/station"
 
 const HAS_MIGRATED_KEY = "bql-has-migrated"
 const FAVORITE_STATION_KEY = "bql-fav-station"
@@ -61,6 +55,10 @@ class StorageService {
     return favoriteStation ? Number(favoriteStation) : undefined
   }
 
+  async clearFavoriteStation() {
+    await this.storage.remove(FAVORITE_STATION_KEY)
+  }
+
   async setShowBikeCount(showBikeCount: boolean) {
     await this.storage.set(SHOW_BIKE_COUNT_KEY, showBikeCount)
   }
@@ -104,6 +102,11 @@ class StorageService {
       startStationNumber ? Number(startStationNumber) : undefined,
       endStationNumber ? Number(endStationNumber) : undefined
     ]
+  }
+
+  async clearFavoriteJourneyStations() {
+    await this.storage.remove(FAVORITE_JOURNEY_START_STATION_KEY)
+    await this.storage.remove(FAVORITE_JOURNEY_END_STATION_KEY)
   }
 
   private async migrateFromLocalStorageToStorage() {

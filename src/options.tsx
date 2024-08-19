@@ -1,30 +1,17 @@
-import bqlLogo from "data-base64:assets/icon128.png";
-import { useEffect, useMemo, useState } from "react";
+import bqlLogo from "data-base64:assets/icon128.png"
+import { useEffect, useMemo, useState } from "react"
 
+import { getStations } from "~services/api/stations"
+import StorageService from "~services/storage"
+import type { Station } from "~types/station"
 
+import "./options.css"
 
-import { getStations } from "~services/api/stations";
-import StorageService from "~services/storage";
-import type { Station } from "~types/station";
-
-
-
-
-
-
-import "./options.css";
-
-
-
-import OptionsButton from "~components/OptionsButton";
-
-
-
-
+import OptionsButton from "~components/OptionsButton"
 
 const OptionsPage = () => {
   const [stations, setStations] = useState<Station[]>([])
-  const [favoriteStationsNumbers, setFavoriteStationsNumbers] = useState<Station["number"][]>([])
+  const [stationsNumbers, setStationsNumbers] = useState<Station["number"][]>([])
   const [favoriteStationNumber, setFavoriteStationNumber] = useState<Station["number"] | undefined>(undefined)
   const [favoriteStation, setFavoriteStation] = useState<Station | undefined>(undefined)
   const [favStationSaveStatus, setFavStationSaveStatus] = useState<boolean>(false)
@@ -37,8 +24,8 @@ const OptionsPage = () => {
   const [favoriteJourneySaveStatus, setFavoriteJourneySaveStatus] = useState<boolean>(false)
 
   const favoriteStations = useMemo(
-    () => stations.filter((station) => favoriteStationsNumbers.includes(station.number)),
-    [stations, favoriteStationsNumbers]
+    () => stations.filter((station) => stationsNumbers.includes(station.number)),
+    [stations, stationsNumbers]
   )
 
   useEffect(() => {
@@ -49,8 +36,8 @@ const OptionsPage = () => {
     const rawStations = await getStations()
     setStations(rawStations)
 
-    const favStationsNumbers = await StorageService.getStations()
-    setFavoriteStationsNumbers(favStationsNumbers)
+    const storageStationsNumbers = await StorageService.getStations()
+    setStationsNumbers(storageStationsNumbers)
 
     const favStationNumber = await StorageService.getFavoriteStation()
     setFavoriteStationNumber(favStationNumber)
@@ -58,6 +45,14 @@ const OptionsPage = () => {
 
     const isBikeCountEnabled = await StorageService.getShowBikeCount()
     setShowBikeCount(isBikeCountEnabled)
+
+    if (isBikeCountEnabled && !storageStationsNumbers.includes(favStationNumber)) {
+      await StorageService.clearFavoriteStation()
+      await StorageService.setShowBikeCount(false)
+      setShowBikeCount(false)
+      setFavoriteStationNumber(undefined)
+      setFavoriteStation(undefined)
+    }
 
     const refreshInt = await StorageService.getRefreshInterval()
     setRefreshInterval(refreshInt)
@@ -68,6 +63,17 @@ const OptionsPage = () => {
     const [favStartStationNumber, favEndStationNumber] = await StorageService.getFavoriteJourneyStations()
     setFavoriteStartStationNumber(favStartStationNumber)
     setFavoriteEndStationNumber(favEndStationNumber)
+
+    if (
+      (showFavoriteJourney && !storageStationsNumbers.includes(favStartStationNumber)) ||
+      !storageStationsNumbers.includes(favEndStationNumber)
+    ) {
+      await StorageService.clearFavoriteJourneyStations()
+      await StorageService.setShowFavoriteJourney(false)
+      setShowFavoriteJourney(false)
+      setFavoriteStartStationNumber(undefined)
+      setFavoriteEndStationNumber(undefined)
+    }
   }
 
   /**
@@ -151,7 +157,7 @@ const OptionsPage = () => {
                   value={favoriteStationNumber}
                   onChange={(e) => onChangeFavoriteStation(e.target.value)}>
                   {!favoriteStationNumber && (
-                    <option value={undefined} disabled>
+                    <option value={undefined} disabled={!!favoriteStationNumber}>
                       Sélectionnez une station préférée
                     </option>
                   )}

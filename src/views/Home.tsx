@@ -20,7 +20,6 @@ const Home = () => {
   const init = async () => {
     const rawStations = await getStations()
     const favoriteStationsNumbers = await StorageService.getStations()
-    console.log("favorite stations ===", favoriteStationsNumbers)
     setStations(rawStations.filter((station) => favoriteStationsNumbers.includes(station.number)))
 
     // Favorite journey
@@ -34,9 +33,9 @@ const Home = () => {
   }
 
   const handleRemoveStation = async (stationNumber: number) => {
-    console.log("remove station", stationNumber)
     await StorageService.removeStation(stationNumber)
     setStations(stations.filter((station) => station.number !== stationNumber))
+    init()
   }
 
   return (
@@ -52,7 +51,11 @@ const Home = () => {
           )}
           <div className="flex flex-col gap-3 mb-2">
             {stations.map((station) => (
-              <StationItem key={station.number} station={station} onRemoveStation={() => handleRemoveStation(station.number)} />
+              <StationItem
+                key={station.number}
+                station={station}
+                onRemoveStation={() => handleRemoveStation(station.number)}
+              />
             ))}
           </div>
         </div>
