@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom"
 
+import StationListItem from "~components/StationListItem"
 import { getStations } from "~services/api/stations"
 import StorageService from "~services/storage"
-import StationListItem from "~components/StationListItem"
 import type { Station } from "~types/station"
 
 const StationsList = () => {
@@ -20,7 +20,6 @@ const StationsList = () => {
     const rawStations = await getStations()
     setApiStations(rawStations)
     setStations(rawStations.sort((s1, s2) => (s1.number > s2.number ? 1 : -1)))
-    const favStations = await StorageService.getFavoriteStations()
   }
 
   const filterStations = (search: string) => {
@@ -32,8 +31,8 @@ const StationsList = () => {
     setStations(filteredStations)
   }
 
-  const onAddStationToFavorite = (station: Station) => {
-    StorageService.addFavoriteStation(station)
+  const onAddStationToFavorite = async (station: Station) => {
+    await StorageService.addFavoriteStation(station)
     navigation("/")
   }
 
@@ -47,7 +46,11 @@ const StationsList = () => {
       />
 
       {stations.map((station) => (
-        <StationListItem key={station.number} station={station} onClickStation={() => onAddStationToFavorite(station)} />
+        <StationListItem
+          key={station.number}
+          station={station}
+          onClickStation={() => onAddStationToFavorite(station)}
+        />
       ))}
     </div>
   )

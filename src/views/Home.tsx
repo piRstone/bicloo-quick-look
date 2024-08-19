@@ -11,7 +11,7 @@ const Home = () => {
   const [stations, setStations] = useState<Station[]>([])
   const [favoriteJourneyStartStation, setFavoriteJourneyStartStation] = useState<Station | undefined>(undefined)
   const [favoriteJourneyEndStation, setFavoriteJourneyEndStation] = useState<Station | undefined>(undefined)
-  const [showFavoriteJourney] = useState<boolean>(StorageService.getShowFavoriteJourney())
+  const [showFavoriteJourney, setShowFavoriteJourney] = useState<boolean>(false)
 
   useEffect(() => {
     init()
@@ -19,12 +19,13 @@ const Home = () => {
 
   const init = async () => {
     const rawStations = await getStations()
-    const favoriteStationsNumbers = StorageService.getFavoriteStations()
+    const favoriteStationsNumbers = await StorageService.getFavoriteStations()
     setStations(rawStations.filter((station) => favoriteStationsNumbers.includes(station.number)))
 
     // Favorite journey
-    const favoriteStartStationNumber = StorageService.getFavoriteJourneyStations()[0]
-    const favoriteEndStationNumber = StorageService.getFavoriteJourneyStations()[1]
+    const isFavoriteJourneyEnabled = await StorageService.getShowFavoriteJourney()
+    setShowFavoriteJourney(isFavoriteJourneyEnabled)
+    const [favoriteStartStationNumber, favoriteEndStationNumber] = await StorageService.getFavoriteJourneyStations()
     const startStation = rawStations.find((station) => station.number === favoriteStartStationNumber)
     const endStation = rawStations.find((station) => station.number === favoriteEndStationNumber)
     setFavoriteJourneyStartStation(startStation)

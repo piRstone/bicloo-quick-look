@@ -11,20 +11,16 @@ import OptionsButton from "~components/OptionsButton"
 
 const OptionsPage = () => {
   const [stations, setStations] = useState<Station[]>([])
-  const [favoriteStationsNumbers] = useState<Station["number"][]>(StorageService.getFavoriteStations())
+  const [favoriteStationsNumbers, setFavoriteStationsNumbers] = useState<Station["number"][]>([])
   const [favoriteStationNumber, setFavoriteStationNumber] = useState<Station["number"] | undefined>(undefined)
   const [favoriteStation, setFavoriteStation] = useState<Station | undefined>(undefined)
   const [favStationSaveStatus, setFavStationSaveStatus] = useState<boolean>(false)
-  const [showBikeCount, setShowBikeCount] = useState<boolean>(StorageService.getShowBikeCount())
-  const [refreshInterval, setRefreshInterval] = useState<number>(StorageService.getRefreshInterval())
+  const [showBikeCount, setShowBikeCount] = useState<boolean>(false)
+  const [refreshInterval, setRefreshInterval] = useState<number>(10)
   const [refreshIntervalStatus, setRefreshIntervalStatus] = useState<boolean>(false)
-  const [showFavoriteJourney, setShowFavoriteJourney] = useState<boolean>(StorageService.getShowFavoriteJourney())
-  const [favoriteStartStationNumber, setFavoriteStartStationNumber] = useState<Station["number"]>(
-    StorageService.getFavoriteJourneyStations()[0]
-  )
-  const [favoriteEndStationNumber, setFavoriteEndStationNumber] = useState<Station["number"]>(
-    StorageService.getFavoriteJourneyStations()[1]
-  )
+  const [showFavoriteJourney, setShowFavoriteJourney] = useState<boolean>(false)
+  const [favoriteStartStationNumber, setFavoriteStartStationNumber] = useState<Station["number"] | undefined>(undefined)
+  const [favoriteEndStationNumber, setFavoriteEndStationNumber] = useState<Station["number"] | undefined>(undefined)
   const [favoriteJourneySaveStatus, setFavoriteJourneySaveStatus] = useState<boolean>(false)
 
   const favoriteStations = useMemo(
@@ -40,26 +36,42 @@ const OptionsPage = () => {
     const rawStations = await getStations()
     setStations(rawStations)
 
-    const favoriteStationNumber = StorageService.getFavoriteStation()
-    setFavoriteStationNumber(favoriteStationNumber)
-    setFavoriteStation(rawStations.find((station) => station.number === favoriteStationNumber))
+    const favStationsNumbers = await StorageService.getFavoriteStations()
+    setFavoriteStationsNumbers(favStationsNumbers)
+
+    const favStationNumber = await StorageService.getFavoriteStation()
+    setFavoriteStationNumber(favStationNumber)
+    setFavoriteStation(rawStations.find((station) => station.number === favStationNumber))
+
+    const isBikeCountEnabled = await StorageService.getShowBikeCount()
+    setShowBikeCount(isBikeCountEnabled)
+
+    const refreshInt = await StorageService.getRefreshInterval()
+    setRefreshInterval(refreshInt)
+
+    const isFavoriteJourneyEnabled = await StorageService.getShowFavoriteJourney()
+    setShowFavoriteJourney(isFavoriteJourneyEnabled)
+
+    const [favStartStationNumber, favEndStationNumber] = await StorageService.getFavoriteJourneyStations()
+    setFavoriteStartStationNumber(favStartStationNumber)
+    setFavoriteEndStationNumber(favEndStationNumber)
   }
 
-  const onChangeFavoriteStation = (stationNumber: string | undefined) => {
+  const onChangeFavoriteStation = async (stationNumber: string | undefined) => {
     const value = stationNumber ? Number(stationNumber) : undefined
     setFavoriteStationNumber(value)
-    StorageService.setFavoriteStation(stationNumber ? Number(stationNumber) : undefined)
+    await StorageService.setFavoriteStation(stationNumber ? Number(stationNumber) : undefined)
     setFavStationSaveStatus(true)
     setTimeout(() => setFavStationSaveStatus(false), 2000)
   }
 
-  const onChangeShowBikeCount = (showBikeCount: boolean) => {
-    StorageService.setShowBikeCount(showBikeCount)
+  const onChangeShowBikeCount = async (showBikeCount: boolean) => {
+    await StorageService.setShowBikeCount(showBikeCount)
     setShowBikeCount(showBikeCount)
     if (showBikeCount) {
       const bikesCount = favoriteStation?.totalStands.availabilities.bikes
-      const refreshInterval = StorageService.getRefreshInterval()
-      StorageService.setRefreshInterval(refreshInterval ?? -1)
+      const refreshInterval = await StorageService.getRefreshInterval()
+      await StorageService.setRefreshInterval(refreshInterval ?? -1)
       chrome.action.setBadgeText({ text: bikesCount.toString() })
       chrome.action.setBadgeBackgroundColor({ color: bikesCount > 0 ? "green" : "red" })
     } else {
@@ -67,19 +79,19 @@ const OptionsPage = () => {
     }
   }
 
-  const onChangeRefreshInterval = (value: number) => {
-    StorageService.setRefreshInterval(value)
+  const onChangeRefreshInterval = async (value: number) => {
+    await StorageService.setRefreshInterval(value)
     setRefreshIntervalStatus(true)
     setTimeout(() => setRefreshIntervalStatus(false), 2000)
   }
 
-  const onChangeShowFavoriteJourney = (showFavoriteJourney: boolean) => {
-    StorageService.setShowFavoriteJourney(showFavoriteJourney)
+  const onChangeShowFavoriteJourney = async (showFavoriteJourney: boolean) => {
+    await StorageService.setShowFavoriteJourney(showFavoriteJourney)
     setShowFavoriteJourney(showFavoriteJourney)
   }
 
-  const onSaveFavoriteStations = () => {
-    StorageService.setFavoriteJourneyStations(favoriteStartStationNumber, favoriteEndStationNumber)
+  const onSaveFavoriteStations = async () => {
+    await StorageService.setFavoriteJourneyStations(favoriteStartStationNumber, favoriteEndStationNumber)
     setFavoriteJourneySaveStatus(true)
     setTimeout(() => setFavoriteJourneySaveStatus(false), 2000)
   }
@@ -210,8 +222,18 @@ const OptionsPage = () => {
             </div>
           )}
         </div>
-        <p className="text-xs text-gray-400">Bicloo Quick Look v{process.env.PLASMO_PUBLIC_VERSION} - Made with ❤️ by <a className="font-bold" href="https://pirstone.com" target="_blank" rel="noreferrer noopener">piRstone</a></p>
-        <p className="text-xs text-gray-400 mt-1">Pour toute remarque ou suggestion : <a className="font-bold" href="mailto:contact@pirstone.com">contact@pirstone.com</a></p>
+        <p className="text-xs text-gray-400">
+          Bicloo Quick Look v{process.env.PLASMO_PUBLIC_VERSION} - Made with ❤️ by{" "}
+          <a className="font-bold" href="https://pirstone.com" target="_blank" rel="noreferrer noopener">
+            piRstone
+          </a>
+        </p>
+        <p className="text-xs text-gray-400 mt-1">
+          Pour toute remarque ou suggestion :{" "}
+          <a className="font-bold" href="mailto:contact@pirstone.com">
+            contact@pirstone.com
+          </a>
+        </p>
       </div>
     </div>
   )
