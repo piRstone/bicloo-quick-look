@@ -30,6 +30,18 @@ const Home = () => {
     const endStation = rawStations.find((station) => station.number === favoriteEndStationNumber)
     setFavoriteJourneyStartStation(startStation)
     setFavoriteJourneyEndStation(endStation)
+
+    // Update badge
+    const showBikesCount = await StorageService.getShowBikeCount()
+    if (showBikesCount) {
+      const favoriteStationNumber = await StorageService.getFavoriteStation()
+      const favStation = rawStations.find((station) => station.number === favoriteStationNumber)
+      const availableBikes = favStation?.totalStands.availabilities.bikes
+      chrome.action.setBadgeText({ text: availableBikes.toString() })
+      chrome.action.setBadgeBackgroundColor({
+        color: favStation?.totalStands.availabilities.bikes > 0 ? "green" : "red"
+      })
+    }
   }
 
   const handleRemoveStation = async (stationNumber: number) => {

@@ -16,8 +16,6 @@ const OptionsPage = () => {
   const [favoriteStation, setFavoriteStation] = useState<Station | undefined>(undefined)
   const [favStationSaveStatus, setFavStationSaveStatus] = useState<boolean>(false)
   const [showBikeCount, setShowBikeCount] = useState<boolean>(false)
-  const [refreshInterval, setRefreshInterval] = useState<number>(10)
-  const [refreshIntervalStatus, setRefreshIntervalStatus] = useState<boolean>(false)
   const [showFavoriteJourney, setShowFavoriteJourney] = useState<boolean>(false)
   const [favoriteStartStationNumber, setFavoriteStartStationNumber] = useState<Station["number"] | undefined>(undefined)
   const [favoriteEndStationNumber, setFavoriteEndStationNumber] = useState<Station["number"] | undefined>(undefined)
@@ -54,9 +52,6 @@ const OptionsPage = () => {
       setFavoriteStation(undefined)
     }
 
-    const refreshInt = await StorageService.getRefreshInterval()
-    setRefreshInterval(refreshInt)
-
     const isFavoriteJourneyEnabled = await StorageService.getShowFavoriteJourney()
     setShowFavoriteJourney(isFavoriteJourneyEnabled)
 
@@ -86,8 +81,6 @@ const OptionsPage = () => {
   const updateBikesCountInBadge = async (shouldUpdate?: boolean, favStation?: Station) => {
     if (shouldUpdate ?? showBikeCount) {
       const bikesCount = (favStation ?? favoriteStation)?.totalStands.availabilities.bikes
-      const refreshInterval = await StorageService.getRefreshInterval()
-      await StorageService.setRefreshInterval(refreshInterval ?? -1)
       chrome.action.setBadgeText({ text: bikesCount.toString() })
       chrome.action.setBadgeBackgroundColor({ color: bikesCount > 0 ? "green" : "red" })
     } else {
@@ -111,12 +104,6 @@ const OptionsPage = () => {
     await StorageService.setShowBikeCount(show)
     setShowBikeCount(show)
     updateBikesCountInBadge(show)
-  }
-
-  const onChangeRefreshInterval = async (value: number) => {
-    await StorageService.setRefreshInterval(value)
-    setRefreshIntervalStatus(true)
-    setTimeout(() => setRefreshIntervalStatus(false), 2000)
   }
 
   const onChangeShowFavoriteJourney = async (showFavoriteJourney: boolean) => {
@@ -171,7 +158,7 @@ const OptionsPage = () => {
               </>
             )}
           </div>
-          <div className="flex flex-row gap-2 items-center my-3">
+          <div className="flex flex-row gap-2 items-center mt-3">
             <input
               id="show-bike-count"
               type="checkbox"
@@ -182,24 +169,7 @@ const OptionsPage = () => {
               Afficher le nombre de vélos pour ma station préférée.
             </label>
           </div>
-          {showBikeCount && (
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-500">Délai de raffraichissement (en minutes)</p>
-              <div className="flex flex-row gap-2 items-center">
-                <input
-                  id="refresh-delay"
-                  type="number"
-                  min="1"
-                  max="60"
-                  className="px-2 pt-2 pb-1 text-lg bg-transparent border-b-4 border-gray-300 focus:border-green-500 outline-none"
-                  value={refreshInterval}
-                  onChange={(e) => setRefreshInterval(Number(e.target.value))}
-                />
-                <OptionsButton text="OK" onClick={() => onChangeRefreshInterval(refreshInterval)} />
-                {refreshIntervalStatus && <span className="text-sm text-green-500">Enregistré</span>}
-              </div>
-            </div>
-          )}
+          <p className="text-xs italic text-gray-400 ml-5">Raffraichi toutes les 4 minutes.</p>
         </div>
         <div className="favorite-journey my-5">
           <h3 className="text-base font-bold tracking-wider mb-2">MON TRAJET PRÉFÉRÉ</h3>

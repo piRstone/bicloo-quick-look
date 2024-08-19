@@ -6,12 +6,9 @@ const HAS_MIGRATED_KEY = "bql-has-migrated"
 const FAVORITE_STATION_KEY = "bql-fav-station"
 const FAVORITE_STATIONS_KEY = "bql-fav-stations"
 const SHOW_BIKE_COUNT_KEY = "bql-show-number"
-const REFRESH_INTERVAL_KEY = "bql-refresh-interval"
 const SHOW_FAVORITE_JOURNEY_KEY = "bql-display-favorite-journee"
 const FAVORITE_JOURNEY_START_STATION_KEY = "bql-beg-station"
 const FAVORITE_JOURNEY_END_STATION_KEY = "bql-end-station"
-
-const DEFAULT_REFRESH_INTERVAL = 10
 
 class StorageService {
   storage: Storage
@@ -68,19 +65,6 @@ class StorageService {
     return showBikeCount !== undefined ? Boolean(showBikeCount) : false
   }
 
-  async setRefreshInterval(refreshDelay: number) {
-    if (refreshDelay < 1) {
-      await this.storage.set(REFRESH_INTERVAL_KEY, String(DEFAULT_REFRESH_INTERVAL))
-      return
-    }
-    await this.storage.set(REFRESH_INTERVAL_KEY, String(refreshDelay))
-  }
-
-  async getRefreshInterval(): Promise<number> {
-    const refreshDelay = await this.storage.get(REFRESH_INTERVAL_KEY)
-    return refreshDelay ? Number(refreshDelay) : DEFAULT_REFRESH_INTERVAL
-  }
-
   async setShowFavoriteJourney(showFavoriteJourney: boolean) {
     await this.storage.set(SHOW_FAVORITE_JOURNEY_KEY, showFavoriteJourney)
   }
@@ -129,12 +113,6 @@ class StorageService {
     if (showBikeCount) {
       await this.storage.set(SHOW_BIKE_COUNT_KEY, showBikeCount === "true" ? true : false)
       localStorage.removeItem(SHOW_BIKE_COUNT_KEY)
-    }
-
-    const refreshInterval = localStorage.getItem(REFRESH_INTERVAL_KEY)
-    if (refreshInterval) {
-      await this.storage.set(REFRESH_INTERVAL_KEY, refreshInterval)
-      localStorage.removeItem(REFRESH_INTERVAL_KEY)
     }
 
     const showFavoriteJourney = localStorage.getItem(SHOW_FAVORITE_JOURNEY_KEY)
