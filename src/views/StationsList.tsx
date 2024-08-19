@@ -20,9 +20,7 @@ const StationsList = () => {
     const rawStations = await getStations()
     setApiStations(rawStations)
     setStations(rawStations.sort((s1, s2) => (s1.number > s2.number ? 1 : -1)))
-    console.log('passe');
     const favStations = await StorageService.getFavoriteStations()
-    console.log('favStations', favStations);
   }
 
   const filterStations = (search: string) => {

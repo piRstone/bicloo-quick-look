@@ -27,8 +27,6 @@ const OptionsPage = () => {
   )
   const [favoriteJourneySaveStatus, setFavoriteJourneySaveStatus] = useState<boolean>(false)
 
-  console.log("===", favoriteStartStationNumber, favoriteEndStationNumber)
-
   const favoriteStations = useMemo(
     () => stations.filter((station) => favoriteStationsNumbers.includes(station.number)),
     [stations, favoriteStationsNumbers]
