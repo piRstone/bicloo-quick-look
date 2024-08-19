@@ -49,7 +49,7 @@ const OptionsPage = () => {
     const rawStations = await getStations()
     setStations(rawStations)
 
-    const favStationsNumbers = await StorageService.getFavoriteStations()
+    const favStationsNumbers = await StorageService.getStations()
     setFavoriteStationsNumbers(favStationsNumbers)
 
     const favStationNumber = await StorageService.getFavoriteStation()

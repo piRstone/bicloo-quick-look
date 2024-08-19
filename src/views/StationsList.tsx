@@ -32,7 +32,7 @@ const StationsList = () => {
   }
 
   const onAddStationToFavorite = async (station: Station) => {
-    await StorageService.addFavoriteStation(station)
+    await StorageService.addStation(station)
     navigation("/")
   }
 

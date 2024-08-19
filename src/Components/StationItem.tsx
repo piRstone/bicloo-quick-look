@@ -2,9 +2,10 @@ import type { Station } from "~types/station"
 
 type StationProps = {
   station: Station
+  onRemoveStation: () => void
 }
 
-const StationItem = ({ station }: StationProps) => {
+const StationItem = ({ station, onRemoveStation }: StationProps) => {
   const stationName = station.name.replace("-", " - ")
   const bikeCount = station.totalStands.availabilities.bikes
   const standCount = station.totalStands.availabilities.stands
@@ -20,9 +21,12 @@ const StationItem = ({ station }: StationProps) => {
   }
 
   return (
-    <div className="flex flex-col bg-white px-3 pt-2 pb-3 rounded-md shadow-md">
+    <div className="group relative flex flex-col bg-white px-3 pt-2 pb-3 rounded-md shadow-md">
+      <button className="absolute top-2 right-3 hidden group-hover:block" onClick={onRemoveStation}>
+        <span className="text-base text-gray-500">&times;</span>
+      </button>
       <div className="flex flex-row items-center gap-1 my-1">
-        <p className="text-lg font-bold text-gray-800 tracking-wider">{station.name}</p>
+        <p className="text-lg font-bold text-gray-800 tracking-wider">{stationName}</p>
         <span className="text-gray-500">- {station.number}</span>
       </div>
       <div className="flex flex-row items-center gap-2">

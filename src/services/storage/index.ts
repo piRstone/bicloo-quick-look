@@ -29,21 +29,27 @@ class StorageService {
     this.migrateFromLocalStorageToStorage()
   }
 
-  async addFavoriteStation(station: Station) {
-    const favoriteStations = await this.getFavoriteStations()
+  async addStation(station: Station) {
+    const favoriteStations = await this.getStations()
     if (!favoriteStations) {
-      await this.storage.set(FAVORITE_STATIONS_KEY, JSON.stringify([station.number]))
+      await this.storage.set(FAVORITE_STATIONS_KEY, [station.number])
       return
     } else if (favoriteStations.includes(station.number)) {
       return
     }
     const updatedFavoriteStations = [...favoriteStations, station.number]
-    await this.storage.set(FAVORITE_STATIONS_KEY, JSON.stringify(updatedFavoriteStations))
+    await this.storage.set(FAVORITE_STATIONS_KEY, updatedFavoriteStations)
   }
 
-  async getFavoriteStations(): Promise<Station["number"][]> {
+  async getStations(): Promise<Station["number"][]> {
     const favoriteStations = (await this.storage.get(FAVORITE_STATIONS_KEY)) as Station["number"][]
     return favoriteStations || []
+  }
+
+  async removeStation(stationNumber: Station["number"]) {
+    const favoriteStations = await this.getStations()
+    const updatedFavoriteStations = favoriteStations.filter((station) => station !== stationNumber)
+    await this.storage.set(FAVORITE_STATIONS_KEY, updatedFavoriteStations)
   }
 
   async setFavoriteStation(stationNumber: Station["number"] | undefined) {
@@ -83,7 +89,7 @@ class StorageService {
 
   async getShowFavoriteJourney(): Promise<boolean> {
     const showFavoriteJourney = await this.storage.get(SHOW_FAVORITE_JOURNEY_KEY)
-    return showFavoriteJourney !== undefined ? Boolean(showFavoriteJourney): false
+    return showFavoriteJourney !== undefined ? Boolean(showFavoriteJourney) : false
   }
 
   async setFavoriteJourneyStations(startStationNumber: Station["number"], endStationNumber: Station["number"]) {
@@ -110,9 +116,9 @@ class StorageService {
       localStorage.removeItem(FAVORITE_STATION_KEY)
     }
 
-    const favoriteStations = localStorage.getItem(FAVORITE_STATIONS_KEY)
-    if (favoriteStations) {
-      await this.storage.set(FAVORITE_STATIONS_KEY, favoriteStations)
+    const stations = localStorage.getItem(FAVORITE_STATIONS_KEY)
+    if (stations) {
+      await this.storage.set(FAVORITE_STATIONS_KEY, stations)
       localStorage.removeItem(FAVORITE_STATIONS_KEY)
     }
 
