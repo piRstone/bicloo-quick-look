@@ -1,13 +1,26 @@
-import bqlLogo from "data-base64:assets/icon128.png"
-import { useEffect, useMemo, useState } from "react"
+import bqlLogo from "data-base64:assets/icon128.png";
+import { useEffect, useMemo, useState } from "react";
 
-import { getStations } from "~services/api/stations"
-import StorageService from "~services/storage"
-import type { Station } from "~types/station"
 
-import "./options.css"
 
-import OptionsButton from "~components/OptionsButton"
+import { getStations } from "~services/api/stations";
+import StorageService from "~services/storage";
+import type { Station } from "~types/station";
+
+
+
+
+
+
+import "./options.css";
+
+
+
+import OptionsButton from "~components/OptionsButton";
+
+
+
+
 
 const OptionsPage = () => {
   const [stations, setStations] = useState<Station[]>([])
@@ -79,12 +92,13 @@ const OptionsPage = () => {
    * @param favStation
    */
   const updateBikesCountInBadge = async (shouldUpdate?: boolean, favStation?: Station) => {
+    const action = process.env.PLASMO_MANIFEST_VERSION === "mv3" ? chrome.action : chrome.browserAction
     if (shouldUpdate ?? showBikeCount) {
       const bikesCount = (favStation ?? favoriteStation)?.totalStands.availabilities.bikes
-      chrome.action.setBadgeText({ text: bikesCount.toString() })
-      chrome.action.setBadgeBackgroundColor({ color: bikesCount > 0 ? "green" : "red" })
+      action.setBadgeText({ text: bikesCount.toString() })
+      action.setBadgeBackgroundColor({ color: bikesCount > 0 ? "green" : "red" })
     } else {
-      chrome.action.setBadgeText({ text: "" })
+      action.setBadgeText({ text: "" })
     }
   }
 

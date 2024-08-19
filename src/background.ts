@@ -3,6 +3,8 @@ import StorageService from "~services/storage"
 
 const ALARM_NAME = "bql-alarm"
 
+const action = process.env.PLASMO_MANIFEST_VERSION === "mv3" ? chrome.action : chrome.browserAction
+
 async function getFavoriteStationBikesCount() {
   const showBikesCount = await StorageService.getShowBikeCount()
   if (!showBikesCount) return
@@ -13,8 +15,8 @@ async function getFavoriteStationBikesCount() {
   const availableBikes = favoriteStation?.totalStands.availabilities.bikes
 
   // Set badge text
-  chrome.action.setBadgeText({ text: availableBikes.toString() })
-  chrome.action.setBadgeBackgroundColor({
+  action.setBadgeText({ text: availableBikes.toString() })
+  action.setBadgeBackgroundColor({
     color: favoriteStation?.totalStands.availabilities.bikes > 0 ? "green" : "red"
   })
 }

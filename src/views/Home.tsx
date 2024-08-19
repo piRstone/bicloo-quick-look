@@ -37,8 +37,9 @@ const Home = () => {
       const favoriteStationNumber = await StorageService.getFavoriteStation()
       const favStation = rawStations.find((station) => station.number === favoriteStationNumber)
       const availableBikes = favStation?.totalStands.availabilities.bikes
-      chrome.action.setBadgeText({ text: availableBikes.toString() })
-      chrome.action.setBadgeBackgroundColor({
+      const action = process.env.PLASMO_MANIFEST_VERSION === "mv3" ? chrome.action : chrome.browserAction
+      action.setBadgeText({ text: availableBikes.toString() })
+      action.setBadgeBackgroundColor({
         color: favStation?.totalStands.availabilities.bikes > 0 ? "green" : "red"
       })
     }
