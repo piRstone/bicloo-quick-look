@@ -1,13 +1,26 @@
-import bqlLogo from "data-base64:assets/icon128.png"
-import { useEffect, useMemo, useState } from "react"
+import bqlLogo from "data-base64:assets/icon128.png";
+import { useEffect, useMemo, useState } from "react";
 
-import { getStations } from "~services/api/stations"
-import StorageService from "~services/storage"
-import type { Station } from "~types/station"
 
-import "./options.css"
 
-import OptionsButton from "~components/OptionsButton"
+import { getStations } from "~services/api/stations";
+import StorageService from "~services/storage";
+import type { Station } from "~types/station";
+
+
+
+
+
+
+import "./options.css";
+
+
+
+import OptionsButton from "~components/OptionsButton";
+
+
+
+
 
 const OptionsPage = () => {
   const [stations, setStations] = useState<Station[]>([])
@@ -57,19 +70,16 @@ const OptionsPage = () => {
     setFavoriteEndStationNumber(favEndStationNumber)
   }
 
-  const onChangeFavoriteStation = async (stationNumber: string | undefined) => {
-    const value = stationNumber ? Number(stationNumber) : undefined
-    setFavoriteStationNumber(value)
-    await StorageService.setFavoriteStation(stationNumber ? Number(stationNumber) : undefined)
-    setFavStationSaveStatus(true)
-    setTimeout(() => setFavStationSaveStatus(false), 2000)
-  }
-
-  const onChangeShowBikeCount = async (showBikeCount: boolean) => {
-    await StorageService.setShowBikeCount(showBikeCount)
-    setShowBikeCount(showBikeCount)
-    if (showBikeCount) {
-      const bikesCount = favoriteStation?.totalStands.availabilities.bikes
+  /**
+   * To prevent passing the previous value from the state as this function is called when we change it,
+   * we pass the value as a parameter. If not passed, we use the state value.
+   *
+   * @param shouldUpdate
+   * @param favStation
+   */
+  const updateBikesCountInBadge = async (shouldUpdate?: boolean, favStation?: Station) => {
+    if (shouldUpdate ?? showBikeCount) {
+      const bikesCount = (favStation ?? favoriteStation)?.totalStands.availabilities.bikes
       const refreshInterval = await StorageService.getRefreshInterval()
       await StorageService.setRefreshInterval(refreshInterval ?? -1)
       chrome.action.setBadgeText({ text: bikesCount.toString() })
@@ -77,6 +87,24 @@ const OptionsPage = () => {
     } else {
       chrome.action.setBadgeText({ text: "" })
     }
+  }
+
+  const onChangeFavoriteStation = async (stationNumber: string | undefined) => {
+    const value = stationNumber ? Number(stationNumber) : undefined
+    setFavoriteStationNumber(value)
+    await StorageService.setFavoriteStation(stationNumber ? Number(stationNumber) : undefined)
+    setFavStationSaveStatus(true)
+    setTimeout(() => setFavStationSaveStatus(false), 2000)
+
+    const newFavoriteStation = stations.find((station) => station.number === value)
+    setFavoriteStation(newFavoriteStation)
+    updateBikesCountInBadge(showBikeCount, newFavoriteStation) // Update badge as favorite station is changed
+  }
+
+  const onChangeShowBikeCount = async (show: boolean) => {
+    await StorageService.setShowBikeCount(show)
+    setShowBikeCount(show)
+    updateBikesCountInBadge(show)
   }
 
   const onChangeRefreshInterval = async (value: number) => {
