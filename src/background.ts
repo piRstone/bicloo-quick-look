@@ -23,7 +23,6 @@ async function getFavoriteStationBikesCount() {
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === ALARM_NAME) {
-    console.log("alarm!!!")
     getFavoriteStationBikesCount()
   }
 })

@@ -95,7 +95,7 @@ class StorageService {
 
   private async migrateFromLocalStorageToStorage() {
     const hasMigrated = await this.storage.get(HAS_MIGRATED_KEY)
-    if (hasMigrated) return
+    if (localStorage === undefined || hasMigrated) return
 
     const favoriteStation = localStorage.getItem(FAVORITE_STATION_KEY)
     if (favoriteStation) {
