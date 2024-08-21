@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import StationListItem from "~components/StationListItem"
+import StationListItem from "~Components/StationListItem"
 import { getStations } from "~services/api/stations"
 import StorageService from "~services/storage"
 import type { Station } from "~types/station"

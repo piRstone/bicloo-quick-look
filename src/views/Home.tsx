@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 
-import FavoriteJourney from "~components/FavoriteJourney"
-import FavoriteJourneyPlaceholder from "~components/FavoriteJourneyPlaceholder"
-import StationItem from "~components/StationItem"
+import FavoriteJourney from "~Components/FavoriteJourney"
+import FavoriteJourneyPlaceholder from "~Components/FavoriteJourneyPlaceholder"
+import StationItem from "~Components/StationItem"
 import { getStations } from "~services/api/stations"
 import StorageService from "~services/storage"
 import type { Station } from "~types/station"
