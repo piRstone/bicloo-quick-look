@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^1.11.0",
-    "axios": "^1.7.4",
-    "plasmo": "0.88.0",
+    "axios": "^1.21.0",
+    "plasmo": "0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.26.1"
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
@@ -27,7 +27,7 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.41",
+    "postcss": "^8.5.32",
     "prettier": "3.2.4",
     "tailwindcss": "^3.4.10",
     "typescript": "5.3.3"
@@ -45,6 +45,66 @@
         "id": "bicloo-quick-look-extension@pirstone.com"
       }
     }
-
+  },
+  "pnpm": {
+    "overrides": {
+      "sharp": "^0.35.5",
+      "svgo@<2.8.4": "^2.8.4",
+      "svelte": "^5.55.7",
+      "immutable@4": "^4.3.9",
+      "js-yaml@4": "^4.3.2",
+      "brace-expansion@2": "^2.1.7",
+      "brace-expansion@1": "^1.1.21",
+      "nanoid@3": "^3.3.18",
+      "browserslist": "^4.28.7",
+      "postcss-selector-parser@6": "^6.1.5",
+      "fflate": "^0.8.3",
+      "tmp": "^0.2.6",
+      "@babel/core": "^7.29.6",
+      "@babel/helpers": "^7.26.10",
+      "@babel/runtime": "^7.26.10",
+      "form-data@4": "^4.0.6",
+      "lodash": "^4.18.0",
+      "micromatch": "^4.0.8",
+      "minimatch@9": "^9.0.7",
+      "picomatch@2": "^2.3.2",
+      "rollup@3": "^3.30.0",
+      "yaml@1": "^1.10.3",
+      "yaml@2": "^2.8.3",
+      "glob@10": "^10.5.0",
+      "cross-spawn@7": "^7.0.5",
+      "msgpackr": "^1.10.1",
+      "base-x@3": "^3.0.11",
+      "source-map-js": "^1.2.2",
+      "postcss": "^8.5.32"
+    }
+  },
+  "resolutions": {
+    "sharp": "^0.35.5",
+    "svgo": "^2.8.4",
+    "svelte": "^5.55.7",
+    "immutable": "^4.3.9",
+    "js-yaml": "^4.3.2",
+    "brace-expansion": "^2.1.7",
+    "nanoid": "^3.3.18",
+    "browserslist": "^4.28.7",
+    "postcss-selector-parser": "^6.1.5",
+    "fflate": "^0.8.3",
+    "tmp": "^0.2.6",
+    "@babel/core": "^7.29.6",
+    "@babel/helpers": "^7.26.10",
+    "@babel/runtime": "^7.26.10",
+    "form-data": "^4.0.6",
+    "lodash": "^4.18.0",
+    "micromatch": "^4.0.8",
+    "minimatch": "^9.0.7",
+    "picomatch": "^2.3.2",
+    "rollup": "^3.30.0",
+    "glob": "^10.5.0",
+    "cross-spawn": "^7.0.5",
+    "msgpackr": "^1.10.1",
+    "base-x": "^3.0.11",
+    "source-map-js": "^1.2.2",
+    "postcss": "^8.5.32"
   }
 }
