@@ -76,7 +76,8 @@
       "msgpackr": "^1.10.1",
       "base-x@3": "^3.0.11",
       "source-map-js": "^1.2.2",
-      "postcss": "^8.5.32"
+      "postcss": "^8.5.32",
+      "vue": "^3.5.44"
     }
   },
   "resolutions": {
@@ -105,6 +106,7 @@
     "msgpackr": "^1.10.1",
     "base-x": "^3.0.11",
     "source-map-js": "^1.2.2",
-    "postcss": "^8.5.32"
+    "postcss": "^8.5.32",
+    "vue": "^3.5.44"
   }
 }
